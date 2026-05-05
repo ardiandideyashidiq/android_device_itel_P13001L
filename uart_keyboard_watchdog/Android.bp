@@ -5,12 +5,6 @@ rust_binary {
     vendor: true,
     init_rc: ["uart_keyboard_watchdog.rc"],
     srcs: [
-        "src/android.rs",
-        "src/app.rs",
-        "src/config.rs",
-        "src/controller.rs",
-        "src/input.rs",
-        "src/logging.rs",
         "src/main.rs",
     ],
     shared_libs: ["liblog"],
