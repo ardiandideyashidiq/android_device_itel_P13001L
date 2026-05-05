@@ -3,5 +3,6 @@ type uart_keyboard_watchdog_exec, exec_type, vendor_file_type, file_type;
 
 init_daemon_domain(uart_keyboard_watchdog)
 
+allow uart_keyboard_watchdog input_device:dir r_dir_perms;
 allow uart_keyboard_watchdog input_device:chr_file { getattr ioctl open read };
 set_prop(uart_keyboard_watchdog, vendor_mtk_uart_dock_prop)
