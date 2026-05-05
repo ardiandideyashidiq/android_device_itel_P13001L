@@ -4,10 +4,11 @@
     SPDX-License-Identifier: Apache-2.0
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.lineageos.aperture.P13001L">
+    package="org.lineageos.aperture.p13001l">
 
+    <application android:hasCode="false" />
     <overlay
         android:isStatic="true"
-        android:priority="800"
+        android:priority="1"
         android:targetPackage="org.lineageos.aperture" />
 </manifest>

@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "FrameworksResOverlayP13001L",
+    name: "SystemUIResTarget",
     vendor: true,
 }

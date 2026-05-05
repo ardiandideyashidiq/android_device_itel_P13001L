@@ -306,16 +306,16 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, hardware/mediatek/overlay/mssi.mk)
 PRODUCT_ENFORCE_RRO_TARGETS := *
 PRODUCT_PACKAGES += \
-    FrameworksResOverlayP13001L \
-    SettingsProviderResOverlayP13001L \
-    SettingsResOverlayP13001L \
-    SystemUIResOverlayP13001L \
-    TetheringResOverlayP13001L \
-    WifiResOverlayP13001L
+    FrameworksResTarget \
+    SettingsProviderResTarget \
+    SettingsResTarget \
+    SystemUIResTarget \
+    TetheringConfigTarget \
+    WifiResTarget
 
 # Lineage-Specific Overlays
 PRODUCT_PACKAGES += \
-    ApertureResOverlayP13001L
+    ApertureResTarget
 
 PRODUCT_PACKAGES += \
     NcmTetheringOverlay

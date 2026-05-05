@@ -4,7 +4,7 @@
 //
 
 runtime_resource_overlay {
-    name: "TetheringResOverlayP13001L",
+    name: "TetheringConfigTarget",
     sdk_version: "current",
 
     vendor: true,

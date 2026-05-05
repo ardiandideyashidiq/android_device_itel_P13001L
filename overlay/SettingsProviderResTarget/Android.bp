@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "SettingsProviderResOverlayP13001L",
+    name: "SettingsProviderResTarget",
     vendor: true
 }

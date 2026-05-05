@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "ApertureResOverlayP13001L",
-    vendor: true,
+    name: "ApertureResTarget",
+    product_specific: true,
 }
