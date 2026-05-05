@@ -319,6 +319,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     NcmTetheringOverlay
+
+PRODUCT_PACKAGES += \
+    UpdaterResTarget
     
 # Permissions
 PRODUCT_COPY_FILES += \
