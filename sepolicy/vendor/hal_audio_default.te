@@ -1,0 +1,20 @@
+allow hal_audio_default { ccci_aud_device ebc_device vow_device }:chr_file rw_file_perms;
+allow hal_audio_default mtk_audiohal_data_file:dir create_dir_perms;
+allow hal_audio_default mtk_audiohal_data_file:file create_file_perms;
+allow hal_audio_default sysfs_boot_info:file r_file_perms;
+allow hal_audio_default sysfs:file { read getattr open };
+allow hal_audio_default aw87xxx_vmax:file { read getattr open };
+
+binder_call(hal_audio_default, mtk_hal_power)
+hal_client_domain(hal_audio_default, hal_power)
+
+r_dir_file(hal_audio_default, mnt_vendor_file)
+r_dir_file(hal_audio_default, persist_data_file)
+r_dir_file(hal_audio_default, sysfs_batteryinfo)
+rw_dir_file(hal_audio_default, sysfs_batteryinfo)
+rw_dir_file(hal_audio_default, sysfs_therm)
+
+# Awinic (aw87xxx) smartpa vmax sysfs control
+rw_dir_file(hal_audio_default, sysfs_aw87xxx)
+
+set_prop(hal_audio_default, vendor_mtk_audiohal_prop)

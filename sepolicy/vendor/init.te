@@ -1,0 +1,8 @@
+allow init proc_sched_migration_cost_ns:file rw_file_perms;
+allow init socket_device:sock_file create_file_perms;
+allow init hid_keyboard_device:chr_file rw_file_perms;
+allow init mid_uart_device:chr_file rw_file_perms;
+allow init sysfs_devices_block:file rw_file_perms;
+
+get_prop(init, vendor_mtk_service_nvram_restore_prop)
+get_prop(init, vts_status_prop)

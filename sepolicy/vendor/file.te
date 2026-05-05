@@ -1,0 +1,28 @@
+# Awinic (aw87xxx) smartpa sysfs nodes
+type sysfs_aw87xxx, fs_type, sysfs_type;
+
+# Camera data
+type vendor_megvii_data_file, file_type, data_file_type, mlstrustedobject;
+type vendor_arcsoft_data_file, file_type, data_file_type, mlstrustedobject;
+type vendor_watermark_data_file, file_type, data_file_type, mlstrustedobject;
+
+# Data
+type storage_dbg_data_file, file_type, core_data_file_type, data_file_type;
+
+# GPU
+type vendor_sysfs_gpu, fs_type, sysfs_type;
+
+# OTG
+type sysfs_OTG_STATE_file, fs_type, sysfs_type;
+type sysfs_OTG_CTL_file, fs_type, sysfs_type;
+
+# Torch
+type sysfs_sub_torch_file, fs_type, sysfs_type;
+type sysfs_torch_file, fs_type, sysfs_type;
+type sysfs_wide_torch_file, fs_type, sysfs_type;
+
+# Misc
+type proc_midmisc, fs_type, proc_type;
+
+# Awinic (aw87xxx) smartpa vmax sysfs nodes
+type aw87xxx_vmax, fs_type, sysfs_type;

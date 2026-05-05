@@ -1,0 +1,5 @@
+# Camera
+type cwvi5300_device, dev_type;
+
+# Dock keyboard
+type mid_uart_device, dev_type;

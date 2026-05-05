@@ -1,0 +1,1 @@
+allow epdg_wod self:udp_socket ioctl;

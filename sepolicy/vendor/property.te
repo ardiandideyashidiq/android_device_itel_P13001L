@@ -1,0 +1,17 @@
+# Audio
+vendor_public_prop(vendor_audioserver_prop)
+
+# Dynamic sensor
+vendor_internal_prop(vendor_dynamic_sensor_prop)
+
+# Display
+vendor_public_prop(vendor_displayfeature_prop)
+
+# Runtime override
+vendor_public_prop(vendor_runtime_override_prop)
+
+# Demo
+vendor_public_prop(vendor_demo_prop)
+
+# Dock keyboard
+vendor_public_prop(vendor_mtk_uart_dock_prop)

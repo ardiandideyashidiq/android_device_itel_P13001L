@@ -1,0 +1,24 @@
+# TEE
+/vendor/bin/tee_check_keybox                                                                u:object_r:tee_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.security\.keymint-service\.trustkernel    u:object_r:hal_keymint_default_exec:s0
+
+# BatteryInfo
+/sys/devices/platform/soc/11017000.i2c/i2c-5/5-006b/power_supply/charger(/.*)?                     u:object_r:sysfs_batteryinfo:s0
+/sys/devices/platform/soc/11017000.i2c/i2c-5/5-0053/power_supply/charger(/.*)?                     u:object_r:sysfs_batteryinfo:s0
+
+# Camera
+/data/vendor/anc_yuvnight/working_dir(/.*)?                                             u:object_r:vendor_megvii_data_file:s0
+/data/vendor/arcsoft(/.*)?                                                              u:object_r:vendor_arcsoft_data_file:s0
+/data/vendor/camera_watermark(/.*)?                                                     u:object_r:vendor_watermark_data_file:s0
+
+# Data
+/data/storage_dbg(/.*)?                                                                 u:object_r:storage_dbg_data_file:s0
+
+# Extcon
+/sys/devices/platform/extcon_usb/extcon/extcon0/cable.1/state                           u:object_r:sysfs_OTG_STATE_file:s0
+
+# Power
+/(vendor|system/vendor)/bin/hw/android\.hardware\.power-service\.pixel-libperfmgr           u:object_r:hal_power_default_exec:s0
+
+# Dock keyboard
+/dev/mid_uart(/.*)?                                                                     u:object_r:mid_uart_device:s0

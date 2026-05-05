@@ -1,0 +1,11 @@
+//
+// Copyright 2020 The Android Open Source Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+runtime_resource_overlay {
+    name: "TetheringResOverlayP13001L",
+    sdk_version: "current",
+
+    vendor: true,
+}

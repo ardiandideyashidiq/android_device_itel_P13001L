@@ -1,0 +1,15 @@
+## All proprietary files from this list, unless pinned and noted otherwise, are
+## from sys_mssi_t_64_cn_armv82-user 14 UP1A.231005.007 1728750305 release-keys
+
+dpm.img;AB
+gz.img;AB
+lk.img;AB|2fa5b5c0e2e8dfd06149960ac7092ffffb386cda
+logo.bin:logo.img;AB|f83cdf7033fdee7f68ae34291c10373c1392460d
+mcupm.img;AB
+md1img.img;AB
+pi_img.img;AB
+preloader_tb8781p1_64.bin:preloader_raw.img;AB
+scp.img;AB
+spmfw.img;AB
+sspm.img;AB
+tee.img;AB
