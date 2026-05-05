@@ -20,5 +20,8 @@
 # Power
 /(vendor|system/vendor)/bin/hw/android\.hardware\.power-service\.pixel-libperfmgr           u:object_r:hal_power_default_exec:s0
 
+# Dock keyboard watchdog
+/(vendor|system/vendor)/bin/uart-keyboard-watchdog                                    u:object_r:uart_keyboard_watchdog_exec:s0
+
 # Dock keyboard
 /dev/mid_uart(/.*)?                                                                     u:object_r:mid_uart_device:s0

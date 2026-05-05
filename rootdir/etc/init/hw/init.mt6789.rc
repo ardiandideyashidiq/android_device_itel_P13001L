@@ -285,15 +285,6 @@ on post-fs-data
     #widevine driver node
     chmod 0660 /dev/drm_wv
     chown media system /dev/drm_wv
-
-    # UART dock keyboard
-    chmod 0666 /dev/mid_uart
-    chown system system /dev/mid_uart
-    chmod 0666 /dev/ttyS2
-    chown root root /dev/ttyS2
-    chmod 0666 /system/bin/mid_uart_dock
-    chown system system /system/bin/mid_uart_dock
-    write /dev/mid_uart "1"
 	
 # End of adding by MTK drivers
 # -----------------------
@@ -394,15 +385,25 @@ on property:sys.boot_completed=1
     write /proc/sys/kernel/sched_lib_name "com.miHoYo.,com.HoYoverse.,UnityMain,libunity.so"
     write /proc/sys/kernel/sched_lib_mask_force 255
 
-# UART dock keyboard
-#service mid_uart_dock /system/bin/mid_uart_dock
-#    user root
-#    group root
-#    oneshot
-#    disabled
+# uart dock keyboard
+on property:sys.boot_completed=1
+    #add uart docking
+    chmod 0666 /dev/mid_uart
+    chown system system /dev/mid_uart
+    chmod 0666 /dev/ttyS2
+    chown root root /dev/ttyS2
+    chmod 0666 /system/bin/mid_uart_dock
+    chown system system /system/bin/mid_uart_dock
+    write /dev/mid_uart "1"
 
-#on property:persist.vendor.uart.dock=1
-#    start mid_uart_dock
+service mid_uart_dock /system/bin/mid_uart_dock
+    user root
+    group root
+    oneshot
+    disabled
 
-#on property:persist.vendor.uart.dock=0
-#    stop mid_uart_dock
+on property:persist.sys.uart.dock=1
+   start mid_uart_dock
+
+on property:persist.sys.uart.dock=0
+   stop mid_uart_dock

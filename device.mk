@@ -509,6 +509,10 @@ PRODUCT_PACKAGES += \
     android.hardware.usb-service.mediatek \
     android.hardware.usb.gadget-service.mediatek
     
+# Dock keyboard watchdog
+PRODUCT_PACKAGES += \
+    uart-keyboard-watchdog
+
 # userdata
 PRODUCT_FS_COMPRESSION := 1
 

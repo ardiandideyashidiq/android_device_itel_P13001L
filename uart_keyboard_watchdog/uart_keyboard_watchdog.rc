@@ -1,0 +1,8 @@
+service uart_keyboard_watchdog /vendor/bin/uart-keyboard-watchdog
+    class late_start
+    user system
+    group system input
+    disabled
+
+on property:sys.boot_completed=1
+    start uart_keyboard_watchdog

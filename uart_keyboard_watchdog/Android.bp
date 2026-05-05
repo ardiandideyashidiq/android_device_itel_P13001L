@@ -1,0 +1,17 @@
+rust_binary {
+    name: "uart-keyboard-watchdog",
+    crate_name: "uart_keyboard_watchdog",
+    edition: "2021",
+    vendor: true,
+    init_rc: ["uart_keyboard_watchdog.rc"],
+    srcs: [
+        "src/android.rs",
+        "src/app.rs",
+        "src/config.rs",
+        "src/controller.rs",
+        "src/input.rs",
+        "src/logging.rs",
+        "src/main.rs",
+    ],
+    shared_libs: ["liblog"],
+}
