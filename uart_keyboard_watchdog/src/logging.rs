@@ -9,11 +9,13 @@ unsafe extern "C" {
     fn __android_log_write(prio: c_int, tag: *const c_char, text: *const c_char) -> c_int;
 }
 
+/// Minimal logger backed by `__android_log_write`.
 pub(crate) struct Logger {
     tag: CString,
 }
 
 impl Logger {
+    /// Build a logger for the supplied tag.
     pub(crate) fn new(tag: String) -> Self {
         let sanitized = sanitize(&tag);
         Self {
@@ -21,10 +23,12 @@ impl Logger {
         }
     }
 
+    /// Emit an INFO log line.
     pub(crate) fn info(&self, message: &str) {
         self.emit(ANDROID_LOG_INFO, message);
     }
 
+    /// Emit a WARN log line.
     pub(crate) fn warn(&self, message: &str) {
         self.emit(ANDROID_LOG_WARN, message);
     }
@@ -32,6 +36,7 @@ impl Logger {
     fn emit(&self, priority: c_int, message: &str) {
         let sanitized = sanitize(message);
         let c_message = CString::new(sanitized).expect("sanitized log message should not contain NUL");
+        // SAFETY: both pointers come from NUL-free `CString`s and stay alive for the call.
         unsafe {
             __android_log_write(priority, self.tag.as_ptr(), c_message.as_ptr());
         }

@@ -1,21 +1,29 @@
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Latest dock state observed from input.
 pub(crate) enum ObservedState {
+    /// Dock disconnected.
     Detached,
+    /// Dock connected.
     Attached,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Property transition requested by the controller.
 pub(crate) enum Transition {
+    /// Apply attached state.
     ApplyAttached,
+    /// Apply detached state.
     ApplyDetached,
 }
 
+/// Tracks desired and applied dock state.
 pub(crate) struct DockController {
     desired_state: Option<bool>,
     applied_state: Option<bool>,
 }
 
 impl DockController {
+    /// Create a fresh controller.
     pub(crate) fn new() -> Self {
         Self {
             desired_state: None,
@@ -23,6 +31,7 @@ impl DockController {
         }
     }
 
+    /// Record the latest observed state and request a transition when needed.
     pub(crate) fn observe(&mut self, state: ObservedState) -> Option<Transition> {
         match state {
             ObservedState::Detached => self.observe_known(false),
@@ -30,6 +39,7 @@ impl DockController {
         }
     }
 
+    /// Mark a requested transition as applied.
     pub(crate) fn mark_applied(&mut self, transition: Transition) {
         self.applied_state = Some(matches!(transition, Transition::ApplyAttached));
     }

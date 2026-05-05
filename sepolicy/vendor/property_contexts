@@ -35,4 +35,5 @@ ro.vendor.standard.video.enable          u:object_r:vendor_displayfeature_prop:s
 vendor.hbm.enable                        u:object_r:vendor_displayfeature_prop:s0
 
 # Dock keyboard
+persist.sys.uart.dock                       u:object_r:vendor_mtk_uart_dock_prop:s0
 persist.vendor.uart.dock                 u:object_r:vendor_mtk_uart_dock_prop:s0

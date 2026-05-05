@@ -25,12 +25,14 @@ unsafe extern "C" {
     fn ioctl(fd: c_int, request: c_ulong, ...) -> c_int;
 }
 
+/// Handle to the dock input device.
 pub(crate) struct InputMonitor {
     path: PathBuf,
     file: File,
 }
 
 impl InputMonitor {
+    /// Find the named input device under `/dev/input`.
     pub(crate) fn discover(name: &str) -> io::Result<Option<Self>> {
         for entry in fs::read_dir(INPUT_DIR)? {
             let entry = entry?;
@@ -50,10 +52,12 @@ impl InputMonitor {
         Ok(None)
     }
 
+    /// Read the current dock switch state.
     pub(crate) fn current_switch_state(&self) -> io::Result<bool> {
         current_switch_state(&self.file)
     }
 
+    /// Check whether the backing device node still exists.
     pub(crate) fn is_still_present(&self) -> bool {
         self.path.exists()
     }
@@ -61,6 +65,7 @@ impl InputMonitor {
 
 fn device_name(file: &File) -> io::Result<Option<String>> {
     let mut buffer = [0 as c_char; DEVICE_NAME_BUFFER_LEN];
+    // SAFETY: `ioctl` writes into the provided fixed-size buffer.
     let result = unsafe {
         ioctl(
             file.as_raw_fd(),
@@ -72,12 +77,14 @@ fn device_name(file: &File) -> io::Result<Option<String>> {
         return Err(io::Error::last_os_error());
     }
 
+    // SAFETY: the kernel returns a NUL-terminated device name in `buffer`.
     let name = unsafe { CStr::from_ptr(buffer.as_ptr()) };
     Ok(name.to_str().ok().map(str::to_owned))
 }
 
 fn current_switch_state(file: &File) -> io::Result<bool> {
     let mut buffer = [0_u8; SWITCH_STATE_BUFFER_LEN];
+    // SAFETY: `ioctl` writes into the provided fixed-size buffer.
     let result = unsafe {
         ioctl(
             file.as_raw_fd(),

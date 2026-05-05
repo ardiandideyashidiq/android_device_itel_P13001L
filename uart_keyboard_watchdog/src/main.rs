@@ -1,3 +1,7 @@
+//! Dock keyboard watchdog service.
+//!
+//! Watches the `mid_input` device and keeps the dock state property in sync.
+
 mod android;
 mod app;
 mod config;

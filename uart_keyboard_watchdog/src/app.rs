@@ -7,6 +7,7 @@ use crate::controller::{DockController, ObservedState, Transition};
 use crate::input::InputMonitor;
 use crate::logging::Logger;
 
+/// Run the watchdog loop.
 pub(crate) fn run(config: &Config, logger: &Logger) -> io::Result<()> {
     logger.info("starting uart-keyboard-watchdog");
 

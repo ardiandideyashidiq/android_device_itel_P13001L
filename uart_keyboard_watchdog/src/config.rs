@@ -1,15 +1,22 @@
 use std::time::Duration;
 
 #[derive(Debug, Clone)]
+/// Runtime configuration for the watchdog service.
 pub(crate) struct Config {
+    /// Property updated when the dock state changes.
     pub(crate) persist_property: String,
+    /// Log tag used for Android logging.
     pub(crate) log_tag: String,
+    /// Input device name to watch for the dock switch.
     pub(crate) device_name: String,
+    /// Poll interval for dock state checks.
     pub(crate) state_poll_interval: Duration,
+    /// Interval between device discovery retries.
     pub(crate) node_wait_interval: Duration,
 }
 
 impl Config {
+    /// Load configuration from environment variables.
     pub(crate) fn from_env() -> Self {
         Self::from_lookup(|key| std::env::var(key).ok())
     }
