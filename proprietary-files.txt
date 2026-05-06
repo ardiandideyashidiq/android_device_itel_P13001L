@@ -177,9 +177,9 @@ vendor/lib64/libbluetooth_mtk_pure.so
 vendor/lib64/libbt-vendor.so
 
 # Dock keyboard
-system/bin/mid_uart_dock
-system/bin/mid_uart_dock.sh
-system/bin/uart_cmd
+system/bin/mid_uart_dock:vendor/bin/mid_uart_dock
+system/bin/mid_uart_dock.sh:vendor/bin/mid_uart_dock.sh
+system/bin/uart_cmd:vendor/bin/uart_cmd
 
 # Camera
 vendor/bin/hw/mt6789/camerahalserver;SYMLINK=vendor/bin/hw/camerahalserver
