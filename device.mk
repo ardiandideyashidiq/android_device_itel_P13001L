@@ -14,7 +14,6 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.m
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS := \
     boot \
-    dtbo \
     odm_dlkm \
     product \
     system \
