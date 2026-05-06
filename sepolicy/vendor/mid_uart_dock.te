@@ -1,0 +1,6 @@
+type mid_uart_dock, domain;
+type mid_uart_dock_exec, exec_type, file_type;
+
+init_daemon_domain(mid_uart_dock)
+
+allow mid_uart_dock ttyS_device:chr_file rw_file_perms;
