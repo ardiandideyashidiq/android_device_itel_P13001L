@@ -3,5 +3,6 @@ type mid_uart_dock_exec, exec_type, vendor_file_type, file_type;
 
 init_daemon_domain(mid_uart_dock)
 
+allow mid_uart_dock self:capability sys_admin;
 allow mid_uart_dock ttyS_device:chr_file rw_file_perms;
 allow mid_uart_dock ttyS_device:chr_file ioctl;
