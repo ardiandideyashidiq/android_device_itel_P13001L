@@ -5,9 +5,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/infinity_P13001L.mk
+    $(LOCAL_DIR)/lineage_P13001L.mk
 
 COMMON_LUNCH_CHOICES := \
-    infinity_P13001L-user \
-    infinity_P13001L-userdebug \
-    infinity_P13001L-eng
+    lineage_P13001L-user \
+    lineage_P13001L-userdebug \
+    lineage_P13001L-eng

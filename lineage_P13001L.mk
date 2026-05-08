@@ -9,12 +9,12 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit some common Lineage stuff.
-$(call inherit-product, vendor/infinity/config/common_full_tablet.mk)
+$(call inherit-product, vendor/lineage/config/common_full_tablet.mk)
 
 # Inherit from P13001L device
 $(call inherit-product, device/itel/P13001L/device.mk)
 
-PRODUCT_NAME := infinity_P13001L
+PRODUCT_NAME := lineage_P13001L
 PRODUCT_DEVICE := P13001L
 PRODUCT_MANUFACTURER := ITEL
 PRODUCT_BRAND := Itel
@@ -66,6 +66,3 @@ AXION_MAINTAINER := R
 AXION_PROCESSOR := Mediatek Helio G99
 
 TARGET_INCLUDES_LOS_PREBUILTS := true
-
-# Maintainer Name
-INFINITY_MAINTAINER := "R"

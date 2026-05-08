@@ -98,7 +98,7 @@ BOARD_USES_ODM_DLKIMAGE := true
 BOARD_USES_VENDOR_DLKMIMAGE := true
 
 ifneq ($(WITH_GMS),true)
--include vendor/infinity/config/BoardConfigReservedSize.mk
+-include vendor/lineage/config/BoardConfigReservedSize.mk
 endif
 
 # Platform
