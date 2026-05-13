@@ -111,6 +111,7 @@ ro.surface_flinger.game_default_frame_rate_override=90
 # orientation
 debug.sf.ignore_hwc_physical_display_orientation=true
 ro.bootanim.set_orientation_0=ORIENTATION_90
+ro.setupwizard.rotation_locked=false
 
 # Enable virtual A/B compression
 ro.virtual_ab.compression.threads=true
