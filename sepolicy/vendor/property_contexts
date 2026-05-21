@@ -33,7 +33,7 @@ persist.vendor.power.dfps.level          u:object_r:vendor_displayfeature_prop:s
 ro.vendor.sdr2hdr.by.layer.support       u:object_r:vendor_displayfeature_prop:s0
 ro.vendor.standard.video.enable          u:object_r:vendor_displayfeature_prop:s0
 vendor.hbm.enable                        u:object_r:vendor_displayfeature_prop:s0
-ro.surface_flinger.primary_display_orientation            u:object_r:surfaceflinger_prop:s0 exact enum ORIENTATION_0 ORIENTATION_180 ORIENTATION_270 ORIENTATION_90
+ro.vendor.surface_flinger.primary_display_orientation            u:object_r:surfaceflinger_prop:s0 exact enum ORIENTATION_0 ORIENTATION_180 ORIENTATION_270 ORIENTATION_90
 
 # uart dock
 persist.vendor.uart.dock                 u:object_r:vendor_mtk_uart_dock_prop:s0
