@@ -1026,6 +1026,11 @@ vendor/etc/ipsec/strongswan.conf
 vendor/etc/MNL_Config.xml
 vendor/etc/slp_conf
 
+# kpoc
+system_ext/lib64/libshowlogo.so
+system_ext/bin/kpoc_charger
+system_ext/etc/init/kpoc_charger.rc
+
 # Keymaster
 vendor/bin/hw/vendor.mediatek.hardware.keymaster_attestation@1.1-service
 vendor/etc/init/vendor.mediatek.hardware.keymaster_attestation@1.1-service.rc

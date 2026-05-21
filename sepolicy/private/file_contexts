@@ -1,0 +1,2 @@
+#kpoc
+/(system_ext|system/system_ext)/bin/kpoc_charger u:object_r:kpoc_charger_exec:s0
