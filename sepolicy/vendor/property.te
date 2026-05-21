@@ -16,3 +16,6 @@ vendor_public_prop(vendor_demo_prop)
 # Dock keyboard
 vendor_public_prop(vendor_mtk_uart_dock_prop)
 get_prop(shell, vendor_mtk_uart_dock_prop)
+
+# SurfaceFlinger
+vendor_public_prop(vendor_surfaceflinger_prop)

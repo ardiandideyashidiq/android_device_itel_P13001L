@@ -1,1 +1,2 @@
 get_prop(surfaceflinger, vendor_displayfeature_prop)
+get_prop(surfaceflinger, vendor_surfaceflinger_prop)
