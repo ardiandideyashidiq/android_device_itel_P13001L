@@ -47,6 +47,7 @@ dalvik.vm.dex2oat-threads=6
 dalvik.vm.dex2oat64.enabled=true
 dalvik.vm.image-dex2oat-cpu-set=0,1,2,3,4,5
 dalvik.vm.image-dex2oat-threads=6
+persist.arm64.memtag.system_server=off
 persist.device_config.runtime_native.usap_pool_enabled=false
 persist.sys.minfree_6g=73728,92160,110592,340000,1282868,1677312
 persist.sys.minfree_8g=73728,92160,110592,340000,1677312,2064384
@@ -73,6 +74,9 @@ ro.opengles.version=196610
 persist.dbg.volte_avail_ovr=1
 persist.dbg.vt_avail_ovr=1
 persist.dbg.wfc_avail_ovr=1
+remote_provisioning.enable_rkpd=true
+remote_provisioning.hostname=remoteprovisioning.googleapis.com
+remote_provisioning.connect_timeout_millis=2000
 
 # Iorapd
 iorapd.perfetto.enable=false

@@ -1,5 +1,10 @@
 # Audio
 vendor.audiomediatek. u:object_r:vendor_audioserver_prop:s0
+ro.vendor.audio. u:object_r:vendor_audioserver_prop:s0
+vendor.audio. u:object_r:vendor_audioserver_prop:s0
+vendor.streamin. u:object_r:vendor_audioserver_prop:s0
+vendor.streamout. u:object_r:vendor_audioserver_prop:s0
+vendor.usbsph. u:object_r:vendor_audioserver_prop:s0
 
 # Camera
 persist.vendor.camera.                      u:object_r:vendor_camera_prop:s0
