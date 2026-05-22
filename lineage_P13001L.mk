@@ -55,7 +55,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.perf.scroll_opt.heavy_app = 2
 
 WITH_GAPPS := true
-WITH_GMS := true
+WITH_GMS := false
 
 # Ship Basic Call Recorder App
 WITH_BCR := true
