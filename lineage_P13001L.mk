@@ -32,7 +32,6 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 
 # Default to landscape + enable auto-rotation
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.bootanim.set_orientation_logical_0=ORIENTATION_90 \
     ro.setupwizard.rotation_locked=false
 
 PRODUCT_PROPERTY_OVERRIDES += \
