@@ -195,4 +195,7 @@
 
     <!-- System Info -->
     <integer name="config_sysCPUTempMultiplier">1000</integer>
+
+    <bool name="config_isDesktopModeSupported">true</bool>
+
 </resources>

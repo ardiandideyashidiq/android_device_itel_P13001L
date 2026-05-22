@@ -24,6 +24,12 @@
     <!-- Set default screen rotation to 90 degrees, 1 refers to value of android.view.Surface.ROTATION_90 -->
     <integer name="def_user_rotation">1</integer>
 
+    <!-- Wi-Fi ON by default -->
+    <bool name="def_wifi_on">true</bool>
+
+    <!-- Longer screen-on -->
+    <integer name="def_screen_off_timeout">60000</integer>
+
     <!-- Default for Settings.Global.DEVICE_NAME $1=MODEL-->
     <string name="def_device_name_simple">itel VistaTab 30 Pro</string>
 
