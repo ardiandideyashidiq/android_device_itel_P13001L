@@ -127,6 +127,12 @@ on post-fs-data
     chown root system /data/vendor/flicker
     chmod 0771 /data/vendor/flicker
 
+#ITD:modify for cam SN bind by huihang.zhou 20230302 start
+#CAM OTP SN
+    chown root root /sys/class/sensordrv/tran_imgsensor/tran_imgsensor_sn
+    chmod 0666 /sys/class/sensordrv/tran_imgsensor/tran_imgsensor_sn
+#ITD:modify for cam SN bind by huihang.zhou 20230302 end
+
     # Set SELinux security contexts on upgrade or policy update.
     restorecon_recursive /mnt/vendor/nvdata
 
@@ -209,8 +215,6 @@ on post-fs-data
     chown media media /dev/fm
 
     # bluetooth
-    chown bluetooth bluetooth /dev/hid-keyboard
-    chmod 0660 /dev/hid-keyboard
     #Use uinput's default permission
     chown system net_bt_admin /dev/uinput
 
@@ -233,6 +237,27 @@ on post-fs-data
     chmod 0660 /dev/seninf_n3d
     chmod 0660 /dev/flashlight
     chmod 0660 /dev/MAINAF
+
+#ITD: Modify Camera By Yingji.Wang 220426 Start
+    #DualCam
+    mkdir /data/vendor/arcsoft 0777 system system
+    #tranDualCam
+    mkdir /data/vendor/multicam  0777 system system
+    mkdir /data/vendor/multicam/dualcam  0777 system system
+    #tranSAT
+    mkdir /data/vendor/multicam/sat 0777 system system
+#ITD: Modify Camera By Yingji.Wang 220426 end
+
+#ITD:modify by camera driver junfeng.qin5 20220501 start
+    #MEG-fullHDR
+    mkdir /data/vendor/meg_working_dir 0777 system system
+    mkdir /data/vendor/meg_working_dir/anc_fullhdr 0777 system system
+    #MEG-HUMANEFFECT
+    mkdir /data/vendor/meghumaneffect 0777 system system
+    #watermark 2.0
+    mkdir /data/vendor/camera_watermark 0777 system system
+#ITD:modify by camera driver junfeng.qin5 20220501 end
+
     chown system camera /dev/camera-isp
     chown system camera /dev/camera-mem
     chown system camera /dev/camera-dip
@@ -243,11 +268,9 @@ on post-fs-data
     chown system camera /dev/seninf_n3d
     chown system camera /dev/flashlight
     chown system camera /dev/MAINAF
-
-    # Fake dual camera
+#fake dual camera
     chown root root /sys/class/main2_light/main2_light/main2_light
     chmod 0666 /sys/class/main2_light/main2_light/main2_light
-
     chown system camera /sys/kernel/debug/mtk_cam_dbg/0/ctrl
     chown system camera /sys/kernel/debug/mtk_cam_dbg/1/ctrl
     chown system camera /sys/kernel/debug/mtk_cam_dbg/2/ctrl
@@ -282,9 +305,9 @@ on post-fs-data
     chmod 0664 sys/kernel/debug/rt-regmap/mt6360_ldo.5-0064/reg_addr
     chmod 0664 sys/kernel/debug/rt-regmap/mt6360-4e/reg_addr
 
-    #widevine driver node
-    chmod 0660 /dev/drm_wv
-    chown media system /dev/drm_wv
+	#widevine driver node
+	chmod 0660 /dev/drm_wv
+	chown media system /dev/drm_wv
 	
 # End of adding by MTK drivers
 # -----------------------
@@ -385,8 +408,10 @@ on property:sys.boot_completed=1
     write /proc/sys/kernel/sched_lib_name "com.miHoYo.,com.HoYoverse.,UnityMain,libunity.so"
     write /proc/sys/kernel/sched_lib_mask_force 255
 
-# uart dock keyboard
+# OTG
 on property:sys.boot_completed=1
+    write /sys/devices/platform/odm/odm:tran_battery/OTG_CTL 1
+
     #add uart docking
     chmod 0666 /dev/mid_uart
     chown system system /dev/mid_uart
