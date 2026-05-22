@@ -6,6 +6,24 @@
 
 DEVICE_PATH := device/itel/P13001L
 KERNEL_PATH := $(DEVICE_PATH)-kernel
+COMMON_GKI_PATH := device/millennium/common-kernel
+CONFIGS_PATH := $(DEVICE_PATH)/configs
+
+# AAPT
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := xxhdpi
+PRODUCT_CHARACTERISTICS := tablet
+
+# Boot animation
+TARGET_SCREEN_HEIGHT := 1920
+TARGET_SCREEN_WIDTH := 1200
+
+# Shipping API level
+PRODUCT_SHIPPING_API_LEVEL := 31
+
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += \
+    $(LOCAL_PATH)
 
 # A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
@@ -14,6 +32,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.m
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS := \
     boot \
+    dtbo \
     odm_dlkm \
     product \
     system \
@@ -50,15 +69,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 
-# AAPT
-PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREF_CONFIG := xxhdpi
-PRODUCT_CHARACTERISTICS := tablet
-
 # Audio
 $(call soong_config_set,android_hardware_audio,run_64bit,true)
 $(call soong_config_set_bool,android_hardware_audio,skip_speaker_layout_channel_mask_field,true)
-
 PRODUCT_PACKAGES += \
     android.hardware.audio@7.0-impl:64 \
     android.hardware.audio.effect@7.0-impl:64 \
@@ -110,14 +123,10 @@ PRODUCT_COPY_FILES += \
 
 # AudioFX
 TARGET_EXCLUDES_AUDIOFX := true
-    
+
 # Bluetooth
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth-service.mediatek
-
-# Boot animation
-TARGET_SCREEN_HEIGHT := 1920
-TARGET_SCREEN_WIDTH := 1200
 
 # Boot control HAL
 PRODUCT_PACKAGES += \
@@ -129,7 +138,7 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.common@1.0.vendor:64 \
     android.hardware.camera.device@3.6.vendor:64 \
     android.hardware.camera.provider@2.6.vendor:64
-    
+
 # Dalvik configs
 PRODUCT_VENDOR_PROPERTIES += \
     dalvik.vm.heapstartsize=24m \
@@ -138,6 +147,11 @@ PRODUCT_VENDOR_PROPERTIES += \
     dalvik.vm.heaptargetutilization=0.46 \
     dalvik.vm.heapminfree=8m \
     dalvik.vm.heapmaxfree=48m
+
+    
+# Dock keyboard watchdog
+PRODUCT_PACKAGES += \
+    uart-keyboard-watchdog
 
 # Cgroup
 PRODUCT_COPY_FILES += \
@@ -159,9 +173,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     ANGLE
-
-$(call soong_config_set,surfaceflinger,frame_rate_category_high,120)
-$(call soong_config_set,surfaceflinger,frame_rate_category_min,60)
 
 # Dolby
 $(call inherit-product, vendor/sony/dolby/setup.mk)
@@ -219,7 +230,6 @@ $(call inherit-product, vendor/mediatek/ims/ims.mk)
 # Include GSI keys
 $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 
-
 # Init files
 PRODUCT_PACKAGES += \
     fstab.emmc \
@@ -251,10 +261,6 @@ PRODUCT_PACKAGES += \
 # Enable DM file pre-opting to reduce first boot time
 PRODUCT_DEX_PREOPT_GENERATE_DM_FILES := true
 
-# Kernel
-PRODUCT_COPY_FILES += \
-    $(KERNEL_PATH)/Image.gz:kernel
-
 # Keymaster
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml
@@ -279,10 +285,9 @@ PRODUCT_VENDOR_LINKER_CONFIG_FRAGMENTS += \
 TARGET_DISABLE_MATLOG:= true
 
 # Media
+$(call soong_config_set_bool,android_hardware_mediatek_codec2,link_v33_libstagefright_foundation,true)
 PRODUCT_PACKAGES += \
-    android.hardware.media.c2@1.2.vendor:64 \
-    libcodec2_hidl@1.2.vendor:64 \
-    libcodec2_hidl_plugin:64 \
+    android.hardware.media.c2-mtk-service \
     libcodec2_vndk.vendor:64 \
     libeffects:64 \
     libeffectsconfig.vendor:64 \
@@ -298,7 +303,6 @@ PRODUCT_PACKAGES += \
     android.hardware.cas@1.2-service-lazy
 
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/seccomp,$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy) \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/media,$(TARGET_COPY_OUT_VENDOR)/etc)
 
 # Overlays
@@ -321,7 +325,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     UpdaterResTarget
-    
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
@@ -355,7 +359,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.usb.host.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute.xml \
     frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.version-1_3.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/android.hardware.wifi.passpoint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.passpoint.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
@@ -363,9 +367,9 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.ipsec_tunnel_migration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.ipsec_tunnel_migration.xml \
     frameworks/native/data/etc/android.software.ipsec_tunnels.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.ipsec_tunnels.xml \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml \
-    frameworks/native/data/etc/android.software.opengles.deqp.level-2021-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.opengles.deqp.level.xml \
+    frameworks/native/data/etc/android.software.opengles.deqp.level-2024-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.opengles.deqp.level.xml \
     frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.verified_boot.xml \
-    frameworks/native/data/etc/android.software.vulkan.deqp.level-2021-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.vulkan.deqp.level.xml \
+    frameworks/native/data/etc/android.software.vulkan.deqp.level-2024-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.vulkan.deqp.level.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
 
 ifeq ($(WITH_GMS),true)
@@ -479,8 +483,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
-# Shipping API level
-PRODUCT_SHIPPING_API_LEVEL := 31
+# Set support hide display cutout feature
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.support_hide_display_cutout=true
+
+PRODUCT_PACKAGES += \
+    NoCutoutOverlay \
+    AvoidAppsInCutoutOverlay
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
@@ -510,10 +519,6 @@ $(call soong_config_set_bool,android_hardware_mediatek_usb,audio_accessory_suppo
 PRODUCT_PACKAGES += \
     android.hardware.usb-service.mediatek \
     android.hardware.usb.gadget-service.mediatek
-    
-# Dock keyboard watchdog
-PRODUCT_PACKAGES += \
-    uart-keyboard-watchdog
 
 # userdata
 PRODUCT_FS_COMPRESSION := 1
@@ -522,7 +527,7 @@ PRODUCT_FS_COMPRESSION := 1
 PRODUCT_PACKAGES += \
    vndservicemanager \
    vndservice
-    
+
 # Wi-Fi
 PRODUCT_PACKAGES += \
     libwifi-hal-wrapper:64 \
@@ -532,7 +537,7 @@ PRODUCT_PACKAGES += \
     hostapd \
     libkeystore-wifi-hidl:64 \
     libkeystore-engine-wifi-hidl:64
-    
+
 PRODUCT_PACKAGES += \
     android.hardware.tetheroffload.config@1.0.vendor:64 \
     android.hardware.tetheroffload.control@1.0.vendor:64 \
@@ -541,5 +546,5 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/wifi/,$(TARGET_COPY_OUT_VENDOR)/etc/wifi)
 
-# Inherit from vendor blobs
+# Inherit from the proprietary files makefile.
 $(call inherit-product, vendor/itel/P13001L/P13001L-vendor.mk)
