@@ -30,17 +30,13 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     SystemDevice=itel-P13001L \
     SystemName=P13001L-GL
 
-PRODUCT_PRODUCT_PROPERTIES += \
-    ro.product.model=itel VistaTab 30 Pro
-
 # Default to landscape + enable auto-rotation
-PRODUCT_PRODUCT_PROPERTIES += \
+PRODUCT_PROPERTY_OVERRIDES += \
     ro.bootanim.set_orientation_logical_0=ORIENTATION_90 \
     ro.setupwizard.rotation_locked=false
 
-PRODUCT_PRODUCT_PROPERTIES += \
+PRODUCT_PROPERTY_OVERRIDES += \
     persist.wm.enable_taskbar=true \
-    
 
 # Time
 LINEAGE_VERSION_APPEND_TIME_OF_DAY := true
