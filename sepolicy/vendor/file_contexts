@@ -1,5 +1,10 @@
 # TEE
 /vendor/bin/tee_check_keybox                                                                u:object_r:tee_exec:s0
+
+# Power
+/sys/power/wakeup_count                                                                      u:object_r:sysfs_wakeup:s0
+/sys/devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/5-006a(/.*)?               u:object_r:sysfs_batteryinfo:s0
+
 # BatteryInfo
 /sys/devices/platform/soc/11017000.i2c/i2c-5/5-006b/power_supply/charger(/.*)?						u:object_r:sysfs_batteryinfo:s0
 
