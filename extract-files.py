@@ -47,9 +47,6 @@ lib_fixups: lib_fixups_user_type = {
 blob_fixups: blob_fixups_user_type = {
     'system_ext/bin/kpoc_charger': blob_fixup()
         .add_needed('libbinder_shim.so'),
-    'vendor/bin/hw/android.hardware.media.c2@1.2-mediatek-64b': blob_fixup()
-        .add_needed('libstagefright_foundation-v33.so')
-        .replace_needed('libavservices_minijail_vendor.so', 'libavservices_minijail.so'),    
     ('vendor/bin/hw/android.hardware.gnss-service.mediatek', 'vendor/lib64/hw/android.hardware.gnss-impl-mediatek.so'): blob_fixup()
         .replace_needed('android.hardware.gnss-V1-ndk_platform.so', 'android.hardware.gnss-V1-ndk.so'),
     ('vendor/lib64/hw/mt6789/vendor.mediatek.hardware.pq@2.15-impl.so', 'vendor/bin/hw/vendor.mediatek.hardware.pq@2.2-service'): blob_fixup()
@@ -73,34 +70,6 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('libutils.so', 'libutils-v32.so'),
     ('vendor/lib64/libwvhidl.so', 'vendor/lib64/mediadrm/libwvdrmengine.so'): blob_fixup()
         .replace_needed('libprotobuf-cpp-lite-3.9.1.so', 'libprotobuf-cpp-full-3.9.1.so'),
-    'vendor/etc/init/android.hardware.media.c2@1.2-mediatek.rc': blob_fixup()
-        .add_line_if_missing('    interface android.hardware.media.c2@1.0::IComponentStore default')
-        .add_line_if_missing('    interface android.hardware.media.c2@1.1::IComponentStore default')
-        .add_line_if_missing('    interface android.hardware.media.c2@1.2::IComponentStore default')
-        .regex_replace('@1.2-mediatek', '@1.2-mediatek-64b'),
-    'vendor/lib64/hw/sensors.mediatek.V2.0.so': blob_fixup()
-        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),
-    ('vendor/lib64/libcodec2_mtk_c2store.so', 'vendor/lib64/libcodec2_vpp_qt_plugin.so', 'vendor/lib64/libcodec2_vpp_rs_plugin.so'): blob_fixup()
-        .replace_needed('libcodec2_soft_common.so', 'libcodec2_soft_common-v31.so')
-        .replace_needed('libcodec2_vndk.so', 'libcodec2_vndk-v31.so')
-        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so')
-        .replace_needed('libsfplugin_ccodec_utils.so', 'libsfplugin_ccodec_utils-v31.so'),
-    ('vendor/lib64/libcodec2_mtk_vdec.so', 'vendor/lib64/libcodec2_mtk_venc.so'): blob_fixup()
-        .replace_needed('libcodec2_soft_common.so', 'libcodec2_soft_common-v31.so')
-        .replace_needed('libcodec2_vndk.so', 'libcodec2_vndk-v31.so')
-        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so')
-        .replace_needed('libsfplugin_ccodec_utils.so', 'libsfplugin_ccodec_utils-v31.so')
-        .replace_needed('libui.so', 'libui-v34.so'),
-    'vendor/lib64/libcodec2_soft_common-v31.so': blob_fixup()
-        .replace_needed('libcodec2_vndk.so', 'libcodec2_vndk-v31.so')
-        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so')
-        .replace_needed('libsfplugin_ccodec_utils.so', 'libsfplugin_ccodec_utils-v31.so'),
-    'vendor/lib64/libcodec2_vndk-v31.so': blob_fixup()
-        .replace_needed('libui.so', 'libui-v34.so')
-        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),
-    'vendor/lib64/libsfplugin_ccodec_utils-v31.so': blob_fixup()
-        .replace_needed('libcodec2_vndk.so', 'libcodec2_vndk-v31.so')
-        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),
     ('vendor/bin/mnld', 'vendor/lib64/mt6789/libaalservice.so', 'vendor/lib64/mt6789/libcam.utils.sensorprovider.so'): blob_fixup()
         .replace_needed('libsensorndkbridge.so', 'android.hardware.sensors@1.0-convert-shared.so'),
     'vendor/lib64/hw/audio.primary.mediatek.so': blob_fixup()
@@ -128,6 +97,15 @@ blob_fixups: blob_fixups_user_type = {
         .add_needed('liblog.so'),
     'vendor/lib64/mt6789/libmnl.so': blob_fixup()
         .add_needed('libcutils.so'),
+    (
+        'vendor/lib64/hw/sensors.mediatek.V2.0.so',
+        'vendor/lib64/libcodec2_mtk_c2store.so',
+        'vendor/lib64/libcodec2_mtk_vdec.so',
+        'vendor/lib64/libcodec2_mtk_venc.so',
+        'vendor/lib64/libcodec2_vpp_qt_plugin.so',
+        'vendor/lib64/libcodec2_vpp_rs_plugin.so'
+    ): blob_fixup()
+        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),
     ('vendor/lib64/mt6789/libneuralnetworks_sl_driver_mtk_prebuilt.so', 'vendor/lib64/mt6789/libeffect_hal.so', 'vendor/lib64/libMegviiHum.so'): blob_fixup()
         .clear_symbol_version('AHardwareBuffer_allocate')
         .clear_symbol_version('AHardwareBuffer_createFromHandle')
