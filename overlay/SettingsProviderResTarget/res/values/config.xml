@@ -27,9 +27,6 @@
     <!-- Wi-Fi ON by default -->
     <bool name="def_wifi_on">true</bool>
 
-    <!-- Longer screen-on -->
-    <integer name="def_screen_off_timeout">60000</integer>
-
     <!-- Default for Settings.Global.DEVICE_NAME $1=MODEL-->
     <string name="def_device_name_simple">itel VistaTab 30 Pro</string>
 

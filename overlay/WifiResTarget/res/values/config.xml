@@ -14,5 +14,10 @@
 
     <!-- Default access point SSID used for tethering -->
     <string name="wifi_tether_configure_ssid_default" translatable="false">itel VistaTab 30 Pro</string>
+    
+    <!-- Indicates that 11ax mode is supported on this device. -->
+    <bool name="config_wifi11axSupportOverride">true</bool>
 
+    <!-- Keep SAE auto-upgrade disabled for transition-mode AP compatibility. -->
+    <bool name="config_wifiSaeUpgradeEnabled">false</bool>
 </resources>
