@@ -1,21 +1,12 @@
 # Audio
-vendor_public_prop(vendor_audioserver_prop)
+vendor_public_prop(vendor_audioserver_prop);
 
 # Dynamic sensor
-vendor_internal_prop(vendor_dynamic_sensor_prop)
-
-# Display
-vendor_public_prop(vendor_displayfeature_prop)
-
-# Runtime override
-vendor_public_prop(vendor_runtime_override_prop)
-
-# Demo
-vendor_public_prop(vendor_demo_prop)
+vendor_internal_prop(vendor_dynamic_sensor_prop);
 
 # Dock keyboard
 vendor_public_prop(vendor_mtk_uart_dock_prop)
 get_prop(shell, vendor_mtk_uart_dock_prop)
 
-# SurfaceFlinger
-vendor_public_prop(vendor_surfaceflinger_prop)
+# NFC
+vendor_internal_prop(vendor_nfc_prop);

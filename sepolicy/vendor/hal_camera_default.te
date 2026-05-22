@@ -1,2 +1,0 @@
-# Allow camera HAL to access camera devices
-allow hal_camera_default kd_camera_hw_device:chr_file rw_file_perms;
