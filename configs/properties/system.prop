@@ -1,16 +1,3 @@
-# Lunaris maintainer
-ro.lunaris.maintainer=R
-
-# Axion
-# Enable or disable ScrollOptimizer globally
-persist.sys.perf.scroll_opt = true
-
-# Heavy app handling mode
-# 0 - Disable heavy app classification
-# 1 - Enable dynamic detection (based on frame duration and buffer load)
-# 2 - Treat all apps as heavy for performance
-persist.sys.perf.scroll_opt.heavy_app = 2
-
 # Audio
 persist.vendor.anr.dumpthr=1
 ro.audio.usb.period_us=16000
@@ -42,8 +29,6 @@ ro.sf.blurs_are_expensive=1
 ro.surface_flinger.supports_background_blur=1
 
 # Camera
-persist.vendor.camera.privapp.list=org.lineageos.aperture,com.android.camera
-vendor.camera.aux.packagelist=org.lineageos.aperture,com.android.camera
 vendor.camera.tran.nums=1
 
 # Charger

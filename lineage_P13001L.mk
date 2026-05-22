@@ -30,8 +30,20 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     SystemDevice=itel-P13001L \
     SystemName=P13001L-GL
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.product.model=itel VistaTab 30 Pro
+
 # Time
 LINEAGE_VERSION_APPEND_TIME_OF_DAY := true
+
+# Lunaris
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lunaris.maintainer=R \
+
+# Axion
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.perf.scroll_opt = true \
+    persist.sys.perf.scroll_opt.heavy_app = 2
 
 WITH_GAPPS := true
 WITH_GMS := true
