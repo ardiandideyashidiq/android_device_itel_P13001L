@@ -33,7 +33,9 @@ prompt_yes_no() {
 }
 
 manage_tablet_patch() {
-    local script_dir root_dir target_dir patch_file patch_state temp_patch
+    local script_dir root_dir target_dir
+    local patch_file patch_name patch_state temp_patch
+    local -a patch_files
 
     script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
@@ -46,68 +48,76 @@ manage_tablet_patch() {
     fi
 
     target_dir="$root_dir/frameworks/base"
-    patch_file="$script_dir/patches/tablet-fwb.patch"
-    temp_patch="/tmp/tablet-fwb.patch.$$"
-
-    if [ ! -f "$patch_file" ]; then
-        warn "Patch file not found: $patch_file"
-        return
-    fi
 
     if [ ! -d "$target_dir/.git" ]; then
         warn "Patch target not found: $target_dir"
         return
     fi
 
-    tr -d '\r' < "$patch_file" > "$temp_patch"
+    patch_files=(
+        "$script_dir/patches/0001-tablet-hardcode-landscape-default-rotation.patch"
+        "$script_dir/patches/tablet-fwb.patch"
+    )
 
-    if git -C "$target_dir" apply --check --ignore-whitespace "$temp_patch" >/dev/null 2>&1; then
-        patch_state="not_applied"
-    elif git -C "$target_dir" apply -R --check --ignore-whitespace "$temp_patch" >/dev/null 2>&1; then
-        patch_state="applied"
-    else
-        warn "tablet-fwb.patch is not cleanly applicable or revertible; skipping."
-        rm -f "$temp_patch"
-        return
-    fi
+    for patch_file in "${patch_files[@]}"; do
+        patch_name=$(basename "$patch_file")
+        temp_patch="/tmp/$patch_name.$$"
 
-    if [ "$patch_state" = "not_applied" ]; then
-        if is_interactive_shell; then
-            if ! prompt_yes_no "Apply tablet-fwb.patch?"; then
-                info "Skipped tablet-fwb.patch."
-                rm -f "$temp_patch"
-                return
+        if [ ! -f "$patch_file" ]; then
+            warn "Patch file not found: $patch_file"
+            continue
+        fi
+
+        tr -d '\r' < "$patch_file" > "$temp_patch"
+
+        if git -C "$target_dir" apply --check --ignore-whitespace "$temp_patch" >/dev/null 2>&1; then
+            patch_state="not_applied"
+        elif git -C "$target_dir" apply -R --check --ignore-whitespace "$temp_patch" >/dev/null 2>&1; then
+            patch_state="applied"
+        else
+            warn "$patch_name is not cleanly applicable or revertible; skipping."
+            rm -f "$temp_patch"
+            continue
+        fi
+
+        if [ "$patch_state" = "not_applied" ]; then
+            if is_interactive_shell; then
+                if ! prompt_yes_no "Apply $patch_name?"; then
+                    info "Skipped $patch_name."
+                    rm -f "$temp_patch"
+                    continue
+                fi
+            else
+                info "Non-interactive shell detected; applying $patch_name."
+            fi
+
+            if git -C "$target_dir" apply --ignore-whitespace "$temp_patch"; then
+                success "Applied $patch_name."
+            else
+                error "Failed to apply $patch_name."
             fi
         else
-            info "Non-interactive shell detected; applying tablet-fwb.patch."
+            if ! is_interactive_shell; then
+                info "$patch_name is already applied; leaving it in place."
+                rm -f "$temp_patch"
+                continue
+            fi
+
+            if ! prompt_yes_no "Revert $patch_name?"; then
+                info "Kept $patch_name applied."
+                rm -f "$temp_patch"
+                continue
+            fi
+
+            if git -C "$target_dir" apply -R --ignore-whitespace "$temp_patch"; then
+                success "Reverted $patch_name."
+            else
+                error "Failed to revert $patch_name."
+            fi
         fi
 
-        if git -C "$target_dir" apply --ignore-whitespace "$temp_patch"; then
-            success "Applied tablet-fwb.patch."
-        else
-            error "Failed to apply tablet-fwb.patch."
-        fi
-    else
-        if ! is_interactive_shell; then
-            info "tablet-fwb.patch is already applied; leaving it in place."
-            rm -f "$temp_patch"
-            return
-        fi
-
-        if ! prompt_yes_no "Revert tablet-fwb.patch?"; then
-            info "Kept tablet-fwb.patch applied."
-            rm -f "$temp_patch"
-            return
-        fi
-
-        if git -C "$target_dir" apply -R --ignore-whitespace "$temp_patch"; then
-            success "Reverted tablet-fwb.patch."
-        else
-            error "Failed to revert tablet-fwb.patch."
-        fi
-    fi
-
-    rm -f "$temp_patch"
+        rm -f "$temp_patch"
+    done
 }
 
 manage_tablet_patch

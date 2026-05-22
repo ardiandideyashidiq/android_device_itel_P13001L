@@ -1,0 +1,36 @@
+From: rdndds <rdndds@gmail.com>
+Date: Fri May 22 2026
+Subject: [PATCH] tablet: hardcode landscape as default rotation
+
+Hardcode ROTATION_90 in both BootAnimation and DisplayRotation
+so the tablet starts in landscape without relying on sysprops
+(ro.bootanim.set_orientation_logical_0).
+
+Change-Id: I0000000000000000000000000000000000000001
+
+diff --git a/frameworks/base/cmds/bootanimation/BootAnimation.cpp b/frameworks/base/cmds/bootanimation/BootAnimation.cpp
+index abcdef1..abcdef2 100644
+--- a/frameworks/base/cmds/bootanimation/BootAnimation.cpp
++++ b/frameworks/base/cmds/bootanimation/BootAnimation.cpp
+@@ -656,7 +656,7 @@
+     } else if (syspropValue == "ORIENTATION_270") {
+         return ui::ROTATION_270;
+     }
+-    return ui::ROTATION_0;
++    return ui::ROTATION_90;
+ }
+ 
+ void BootAnimation::projectSceneToWindow(const Display& display) {
+diff --git a/frameworks/base/services/core/java/com/android/server/wm/DisplayRotation.java b/frameworks/base/services/core/java/com/android/server/wm/DisplayRotation.java
+index abcdef3..abcdef4 100644
+--- a/frameworks/base/services/core/java/com/android/server/wm/DisplayRotation.java
++++ b/frameworks/base/services/core/java/com/android/server/wm/DisplayRotation.java
+@@ -346,7 +346,7 @@
+         } else if (syspropValue.equals("ORIENTATION_270")) {
+             return Surface.ROTATION_270;
+         }
+-        return Surface.ROTATION_0;
++        return Surface.ROTATION_90;
+     }
+ 
+     private int readRotation(int resID) {
