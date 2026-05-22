@@ -630,6 +630,7 @@ vendor/firmware/WIFI_RAM_CODE_soc2_2_1e_1.bin
 vendor/firmware/WMT_SOC.cfg
 vendor/firmware/WMT_SOC_CO_CLK.cfg
 vendor/firmware/aw87xxx_acf.bin
+vendor/firmware/awinic_params.bin
 vendor/firmware/fm_cust.cfg
 vendor/firmware/lib3a.ccu
 vendor/firmware/mt6627_fm_v1_coeff.bin
