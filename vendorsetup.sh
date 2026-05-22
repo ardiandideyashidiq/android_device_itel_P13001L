@@ -147,7 +147,7 @@ manage_tablet_patch() {
     fi
 
     patch_files=(
-        "$script_dir/patches/0001-tablet-hardcode-landscape-default-rotation.patch"
+        "$script_dir/patches/landscape-bootanim.patch"
         "$script_dir/patches/tablet-fwb.patch"
     )
 
