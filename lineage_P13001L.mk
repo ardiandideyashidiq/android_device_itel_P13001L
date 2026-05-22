@@ -31,7 +31,8 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     SystemName=P13001L-GL
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.product.model=itel VistaTab 30 Pro
+    ro.product.model=itel VistaTab 30 Pro \
+    ro.setupwizard.rotation_locked=false
 
 # Time
 LINEAGE_VERSION_APPEND_TIME_OF_DAY := true
