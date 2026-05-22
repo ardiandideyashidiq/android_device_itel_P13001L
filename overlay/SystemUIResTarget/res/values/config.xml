@@ -12,9 +12,9 @@
 
     <!-- The padding on the side of the navigation bar. Must be greater than or equal to
          navigation_extra_key_width -->
-    <dimen name="rounded_corner_content_padding">10dp</dimen>
-    <dimen name="status_bar_padding_end">5dp</dimen>
-    <dimen name="status_bar_padding_start">16dp</dimen>
+    <dimen name="rounded_corner_content_padding">16dp</dimen>
+    <dimen name="status_bar_padding_end">4dp</dimen>
+    <dimen name="status_bar_padding_start">8dp</dimen>
 
         <!-- Doze: check proximity sensor before pulsing? -->
     <bool name="doze_proximity_check_before_pulse">false</bool>
