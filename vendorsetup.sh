@@ -32,9 +32,101 @@ prompt_yes_no() {
     esac
 }
 
+apply_patch_file() {
+    local target_dir="$1"
+    local patch_file="$2"
+
+    git -C "$target_dir" apply --ignore-whitespace "$patch_file"
+}
+
+revert_patch_file() {
+    local target_dir="$1"
+    local patch_file="$2"
+
+    git -C "$target_dir" apply -R --ignore-whitespace "$patch_file"
+}
+
+detect_patch_state() {
+    local target_dir="$1"
+    local patch_file="$2"
+
+    if git -C "$target_dir" apply --check --ignore-whitespace "$patch_file" >/dev/null 2>&1; then
+        printf '%s\n' "not_applied"
+    elif git -C "$target_dir" apply -R --check --ignore-whitespace "$patch_file" >/dev/null 2>&1; then
+        printf '%s\n' "applied"
+    else
+        printf '%s\n' "unknown"
+    fi
+}
+
+handle_patch_file() {
+    local target_dir="$1"
+    local patch_file="$2"
+    local patch_name patch_state temp_patch
+
+    patch_name=$(basename "$patch_file")
+    temp_patch="/tmp/$patch_name.$$"
+
+    if [ ! -f "$patch_file" ]; then
+        warn "Patch file not found: $patch_file"
+        return
+    fi
+
+    tr -d '\r' < "$patch_file" > "$temp_patch"
+    patch_state=$(detect_patch_state "$target_dir" "$temp_patch")
+
+    case "$patch_state" in
+        not_applied)
+            if is_interactive_shell; then
+                if ! prompt_yes_no "Apply $patch_name?"; then
+                    info "Skipped $patch_name."
+                    rm -f "$temp_patch"
+                    return
+                fi
+            else
+                info "Non-interactive shell detected; applying $patch_name."
+            fi
+
+            if apply_patch_file "$target_dir" "$temp_patch"; then
+                success "Applied $patch_name."
+            else
+                error "Failed to apply $patch_name."
+            fi
+            ;;
+        applied)
+            if is_interactive_shell; then
+                if ! prompt_yes_no "Revert $patch_name?"; then
+                    info "Kept $patch_name applied."
+                    rm -f "$temp_patch"
+                    return
+                fi
+
+                if revert_patch_file "$target_dir" "$temp_patch"; then
+                    success "Reverted $patch_name."
+                else
+                    error "Failed to revert $patch_name."
+                fi
+            else
+                info "Non-interactive shell detected; normalizing $patch_name."
+
+                if revert_patch_file "$target_dir" "$temp_patch" && \
+                    apply_patch_file "$target_dir" "$temp_patch"; then
+                    success "Reapplied $patch_name."
+                else
+                    error "Failed to normalize $patch_name."
+                fi
+            fi
+            ;;
+        *)
+            warn "$patch_name is not cleanly applicable or revertible; skipping."
+            ;;
+    esac
+
+    rm -f "$temp_patch"
+}
+
 manage_tablet_patch() {
     local script_dir root_dir target_dir
-    local patch_file patch_name patch_state temp_patch
     local -a patch_files
 
     script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -60,63 +152,7 @@ manage_tablet_patch() {
     )
 
     for patch_file in "${patch_files[@]}"; do
-        patch_name=$(basename "$patch_file")
-        temp_patch="/tmp/$patch_name.$$"
-
-        if [ ! -f "$patch_file" ]; then
-            warn "Patch file not found: $patch_file"
-            continue
-        fi
-
-        tr -d '\r' < "$patch_file" > "$temp_patch"
-
-        if git -C "$target_dir" apply --check --ignore-whitespace "$temp_patch" >/dev/null 2>&1; then
-            patch_state="not_applied"
-        elif git -C "$target_dir" apply -R --check --ignore-whitespace "$temp_patch" >/dev/null 2>&1; then
-            patch_state="applied"
-        else
-            warn "$patch_name is not cleanly applicable or revertible; skipping."
-            rm -f "$temp_patch"
-            continue
-        fi
-
-        if [ "$patch_state" = "not_applied" ]; then
-            if is_interactive_shell; then
-                if ! prompt_yes_no "Apply $patch_name?"; then
-                    info "Skipped $patch_name."
-                    rm -f "$temp_patch"
-                    continue
-                fi
-            else
-                info "Non-interactive shell detected; applying $patch_name."
-            fi
-
-            if git -C "$target_dir" apply --ignore-whitespace "$temp_patch"; then
-                success "Applied $patch_name."
-            else
-                error "Failed to apply $patch_name."
-            fi
-        else
-            if ! is_interactive_shell; then
-                info "$patch_name is already applied; leaving it in place."
-                rm -f "$temp_patch"
-                continue
-            fi
-
-            if ! prompt_yes_no "Revert $patch_name?"; then
-                info "Kept $patch_name applied."
-                rm -f "$temp_patch"
-                continue
-            fi
-
-            if git -C "$target_dir" apply -R --ignore-whitespace "$temp_patch"; then
-                success "Reverted $patch_name."
-            else
-                error "Failed to revert $patch_name."
-            fi
-        fi
-
-        rm -f "$temp_patch"
+        handle_patch_file "$target_dir" "$patch_file"
     done
 }
 
