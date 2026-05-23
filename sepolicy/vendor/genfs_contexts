@@ -28,10 +28,6 @@ genfscon sysfs /devices/platform/11270000.ufshci/host0/target0:0:0/0:0:0:2/block
 genfscon sysfs /devices/platform/extcon_usb                                                        u:object_r:sysfs_extcon:s0
 genfscon sysfs /devices/platform/extcon_usb1                                                       u:object_r:sysfs_extcon:s0
 
-# Gesture
-genfscon proc /gesture_function                                                                     u:object_r:proc_gesture_function:s0
-genfscon proc /gesture_state                                                              u:object_r:proc_gesture_state:s0
-
 # Label wakeup nodes
 genfscon sysfs /devices/platform/11cb0000.i2c3/i2c-3/3-0018/wakeup                                  u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/11cb0000.i2c3/i2c-3/3-0028/wakeup                                  u:object_r:sysfs_wakeup:s0
