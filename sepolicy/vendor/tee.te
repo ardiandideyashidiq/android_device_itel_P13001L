@@ -1,2 +1,1 @@
 set_prop(tee, vendor_mtk_trustonic_tee_prop)
-set_prop(tee, bootloader_prop)

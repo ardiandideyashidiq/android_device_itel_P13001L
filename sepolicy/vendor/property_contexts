@@ -1,11 +1,7 @@
 # Audio
 vendor.audiomediatek. u:object_r:vendor_audioserver_prop:s0
-ro.vendor.audio.dolby.dax.support             u:object_r:vendor_mtk_audio_prop:s0
-ro.vendor.dolby.dax.version                   u:object_r:vendor_mtk_audio_prop:s0
-ro.vendor.mtk_audio_alac_support              u:object_r:vendor_mtk_audio_prop:s0
-ro.vendor.mtk_audio_ape_support               u:object_r:vendor_mtk_audio_prop:s0
+ro.vendor.dolby.dax.version                   u:object_r:vendor_mtk_audio_prop:s0 exact string
 ro.vendor.mtk_audio_tuning_tool_ver           u:object_r:vendor_mtk_audio_prop:s0
-ro.vendor.mtk_hifiaudio_support               u:object_r:vendor_mtk_audio_prop:s0
 vendor.audio.powerhal.power.dl u:object_r:vendor_mtk_audiohal_prop:s0 exact bool
 vendor.audio.powerhal.power.ul u:object_r:vendor_mtk_audiohal_prop:s0 exact bool
 vendor.streamin.pcm.dump u:object_r:vendor_mtk_audiohal_prop:s0 exact int
@@ -17,7 +13,6 @@ vendor.usbsph.srcaws.pcm.dump u:object_r:vendor_mtk_audiohal_prop:s0 exact int
 # Camera
 persist.vendor.camera.                      u:object_r:vendor_camera_prop:s0
 ro.vendor.mtk_cam_security_support          u:object_r:vendor_mtk_camera_prop:s0
-ro.vendor.mtk_camera_app_version            u:object_r:vendor_mtk_camera_prop:s0
 ro.vendor.mtk_cam_stereo_camera_support            u:object_r:vendor_mtk_camera_prop:s0
 vendor.debug.seninf.hs_trail                u:object_r:vendor_mtk_camera_prop:s0
 ro.vendor.camera_tran_hal_server_support    u:object_r:vendor_mtk_camera_prop:s0
