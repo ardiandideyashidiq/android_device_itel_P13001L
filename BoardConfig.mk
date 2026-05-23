@@ -116,6 +116,9 @@ BOARD_ODMIMAGE_EROFS_COMPRESS_HINTS := $(CONFIGS_PATH)/erofs_compress_hints.txt
 # Platform
 TARGET_BOARD_PLATFORM := mt6789
 
+# Allow duplicate sysprop assignments
+BUILD_BROKEN_DUP_SYSPROP := true
+
 # Properties
 TARGET_SYSTEM_PROP += $(CONFIGS_PATH)/properties/system.prop
 TARGET_VENDOR_PROP += $(CONFIGS_PATH)/properties/vendor.prop
