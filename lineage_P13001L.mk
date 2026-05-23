@@ -31,10 +31,8 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     SystemName=P13001L-GL
 
 # Default to landscape + enable auto-rotation
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.setupwizard.rotation_locked=false
-
-PRODUCT_PROPERTY_OVERRIDES += \
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.setupwizard.rotation_locked=false \
     persist.wm.enable_taskbar=true \
 
 # Time
