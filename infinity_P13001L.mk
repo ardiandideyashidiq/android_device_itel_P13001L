@@ -9,12 +9,12 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit some common Lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_tablet.mk)
+$(call inherit-product, vendor/infinity/config/common_full_tablet.mk)
 
 # Inherit from P13001L device
 $(call inherit-product, device/itel/P13001L/device.mk)
 
-PRODUCT_NAME := lineage_P13001L
+PRODUCT_NAME := infinity_P13001L
 PRODUCT_DEVICE := P13001L
 PRODUCT_MANUFACTURER := ITEL
 PRODUCT_BRAND := Itel
@@ -33,7 +33,7 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 # Default to landscape + enable auto-rotation
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.setupwizard.rotation_locked=false \
-    persist.wm.enable_taskbar=true \
+    persist.wm.enable_taskbar=true
 
 # Time
 LINEAGE_VERSION_APPEND_TIME_OF_DAY := true
@@ -80,3 +80,11 @@ AXION_MAINTAINER := R
 AXION_PROCESSOR := Mediatek Helio G99
 
 TARGET_INCLUDES_LOS_PREBUILTS := true
+
+# Maintainer Name
+INFINITY_MAINTAINER := "R"
+
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.product.marketname=itel VistaTab 30 Pro \
+    ro.infinity.soc=Mediatek Helio G99 \
+    ro.infinity.camera=13MP + 8MP
