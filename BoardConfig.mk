@@ -7,7 +7,7 @@
 DEVICE_PATH := device/itel/P13001L
 KERNEL_PATH := $(DEVICE_PATH)-kernel
 CONFIGS_PATH := $(DEVICE_PATH)/configs
-COMMON_GKI_PATH := device/millennium/common-kernel
+COMMON_GKI_PATH := device/gki/common-kernel
 
 # Architecture
 TARGET_ARCH := arm64
@@ -204,7 +204,7 @@ BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PATH)/dtbo.img
 BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtb
 
 TARGET_NO_KERNEL_OVERRIDE := true
-LOCAL_KERNEL := $(COMMON_GKI_PATH)/chihiro/Image.gz
+LOCAL_KERNEL := $(COMMON_GKI_PATH)/Image.gz
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel
 
