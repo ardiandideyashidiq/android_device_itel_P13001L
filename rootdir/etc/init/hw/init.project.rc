@@ -8,41 +8,30 @@ on post-fs-data
     chmod 0660 /dev/MAINAF
     chown system camera /dev/MAINAF
 
-    # BSP:modify for LRA XLWYEHLYEL-1 by hongwu.zhan 20221104 start
-    chown system system /sys/class/leds/vibrator_single/activate
-    chown system system /sys/class/leds/vibrator_single/activate_mode
-    chown system system /sys/class/leds/vibrator_single/awrw
-    chown system system /sys/class/leds/vibrator_single/brightness
-    chown system system /sys/class/leds/vibrator_single/bullet_nr
-    chown system system /sys/class/leds/vibrator_single/cali
-    chown system system /sys/class/leds/vibrator_single/cont
-    chown system system /sys/class/leds/vibrator_single/cont_brk_time
-    chown system system /sys/class/leds/vibrator_single/cont_drv_lvl
-    chown system system /sys/class/leds/vibrator_single/cont_drv_time
-    chown system system /sys/class/leds/vibrator_single/cont_wait_num
-    chown system system /sys/class/leds/vibrator_single/duration
-    chown system system /sys/class/leds/vibrator_single/f0
-    chown system system /sys/class/leds/vibrator_single/f0_save
-    chown system system /sys/class/leds/vibrator_single/gain
-    chown system system /sys/class/leds/vibrator_single/gun_type
-    chown system system /sys/class/leds/vibrator_single/haptic_audio
-    chown system system /sys/class/leds/vibrator_single/haptic_audio_time
-    chown system system /sys/class/leds/vibrator_single/index
-    chown system system /sys/class/leds/vibrator_single/loop
-    chown system system /sys/class/leds/vibrator_single/lra_resistance
-    chown system system /sys/class/leds/vibrator_single/max_brightness
-    chown system system /sys/class/leds/vibrator_single/osc_cali
-    chown system system /sys/class/leds/vibrator_single/osc_save
-    chown system system /sys/class/leds/vibrator_single/prctmode
-    chown system system /sys/class/leds/vibrator_single/ram_num
-    chown system system /sys/class/leds/vibrator_single/ram_update
-    chown system system /sys/class/leds/vibrator_single/ram_vbat_comp
-    chown system system /sys/class/leds/vibrator_single/reg
-    chown system system /sys/class/leds/vibrator_single/rtp
-    chown system system /sys/class/leds/vibrator_single/seq
-    chown system system /sys/class/leds/vibrator_single/state
-    chown system system /sys/class/leds/vibrator_single/trig
-    chown system system /sys/class/leds/vibrator_single/trigger
-    chown system system /sys/class/leds/vibrator_single/uevent
-    chown system system /sys/class/leds/vibrator_single/vbat_monitor
-    # BSP:modify for LRA XLWYEHLYEL-1 by hongwu.zhan 20221104 end
+    chmod 0660 /dev/MAINAF2
+    chown system camera /dev/MAINAF2
+
+    chmod 0660 /dev/SUBAF
+    chown system camera /dev/SUBAF
+
+    chmod 0660 /dev/GAF001AF
+    chown system camera /dev/GAF001AF
+
+    chmod 0660 /dev/DW9714AF
+    chown system camera /dev/DW9714AF
+
+    chmod 0660 /dev/LC898212AF
+    chown system camera /dev/LC898212AF
+
+    chmod 0660 /dev/BU64745GWZAF
+    chown system camera /dev/BU64745GWZAF
+
+on boot
+    # Change owner for GED KPI
+    chown system system /sys/module/sspm_v3/holders/ged/parameters/is_GED_KPI_enabled
+    chmod 0644 /sys/module/sspm_v3/holders/ged/parameters/is_GED_KPI_enabled
+
+on property:sys.boot_completed=1
+    # Disable GED KPI
+    write /sys/module/sspm_v3/holders/ged/parameters/is_GED_KPI_enabled 0
+    chmod 0444 /sys/module/sspm_v3/holders/ged/parameters/is_GED_KPI_enabled

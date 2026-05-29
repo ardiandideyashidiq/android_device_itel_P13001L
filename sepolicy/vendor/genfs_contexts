@@ -1,3 +1,6 @@
+# Wakeup stats for power supply nodes
+genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/5-006a/wakeup20         u:object_r:sysfs_wakeup:s0
+
 # Battery
 genfscon sysfs /devices/platform/odm/odm:usb_switch/power_supply/usb_switch                          u:object_r:sysfs_battery:s0
 genfscon sysfs /devices/platform/mtk_ctd/power_supply                                                u:object_r:sysfs_batteryinfo:s0
@@ -11,7 +14,6 @@ genfscon sysfs /devices/platform/charger/power_supply/mtk-slv-div-chg/power     
 genfscon sysfs /devices/platform/charger/power_supply/mtk-mst-div-chg/power                           u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/10026000.pwrap/10026000.pwrap:mt6366/mt6358-gauge/power_supply/mtk-gauge/power u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/10026000.pwrap/10026000.pwrap:mt6366/mt6358-gauge/power_supply/battery/power   u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/11017000.i2c/i2c-5/5-006a/power_supply/5-006a/wakeup20         u:object_r:sysfs_wakeup:s0
 
 # Devices
 genfscon sysfs /devices/platform/11270000.ufshci/host0/target0:0:0/0:0:0:0/block/sda/queue         u:object_r:sysfs_devices_block:s0

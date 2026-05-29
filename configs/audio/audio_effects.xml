@@ -93,21 +93,9 @@
         </stream>
         <stream type="enforced_audible">
         </stream>
-        <stream type="accessibility">
-        </stream>
         <stream type="tts">
         </stream>
         <stream type="assistant">
-        </stream>
-        <stream type="call_assistant">
-        </stream>
-        <stream type="patch">
-            <apply effect="gamedap"/>
-            <apply effect="dap"/>
-        </stream>
-        <stream type="rerouting">
-            <apply effect="gamedap"/>
-            <apply effect="dap"/>
         </stream>
     </postprocess>
 
