@@ -49,7 +49,5 @@ persist.vendor.nfc.            u:object_r:vendor_nfc_prop:s0
 
 # TEE property
 vendor.tee.googlekey.status                          u:object_r:vendor_mtk_trustonic_tee_prop:s0
-# Remote provisioning
-remote_provisioning.enable_rkpd                      u:object_r:remote_prov_prop:s0 exact bool
 # uart dock
 persist.vendor.uart.dock                 u:object_r:vendor_mtk_uart_dock_prop:s0
