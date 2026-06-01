@@ -4,7 +4,7 @@
 dpm.img;AB
 gz.img;AB
 logo.bin:logo.img|9e46bd4ed02cf066c4f09620b87a4ae359e92768
-lk.img;AB|2fa5b5c0e2e8dfd06149960ac7092ffffb386cda
+lk.img;AB|b05c44ceb438a4ee1a5f63e68d4d80332eec8fb0
 mcupm.img;AB
 md1img.img;AB
 pi_img.img;AB

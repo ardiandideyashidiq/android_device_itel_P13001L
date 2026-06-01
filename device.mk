@@ -133,6 +133,9 @@ PRODUCT_PACKAGES += \
     com.android.hardware.boot:64 \
     android.hardware.boot-service.default_recovery:64
 
+# Bypass Lock State for Fenrir
+$(call soong_config_set_bool,fastbootd,bypass_lock_state,true)
+
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.common@1.0.vendor:64 \
