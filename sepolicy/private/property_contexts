@@ -7,5 +7,8 @@ ro.hardware.chipname                        u:object_r:exported_default_prop:s0
 # Dock keyboard
 persist.sys.uart.dock                       u:object_r:vendor_mtk_uart_dock_prop:s0
 
+# Remote provisioning
+remote_provisioning.enable_rkpd                      u:object_r:remote_prov_prop:s0 exact bool
+
 # SVN
 ro.product.svn                              u:object_r:build_prop:s0

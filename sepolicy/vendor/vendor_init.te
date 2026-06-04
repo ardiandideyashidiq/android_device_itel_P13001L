@@ -8,7 +8,6 @@ set_prop(vendor_init, vendor_camera_prop)
 set_prop(vendor_init, vendor_mtk_audiohal_prop)
 set_prop(vendor_init, vendor_mtk_audio_prop)
 set_prop(vendor_init, vendor_mtk_camera_prop)
-set_prop(vendor_init, remote_prov_prop)
 set_prop(vendor_init, vendor_mtk_uart_dock_prop)
 get_prop(vendor_init, vts_status_prop)
 
