@@ -286,6 +286,7 @@ PRODUCT_VENDOR_LINKER_CONFIG_FRAGMENTS += \
 
 # Matlog
 TARGET_DISABLE_MATLOG:= true
+TARGET_INCLUDE_MATLOG := false
 
 # Media
 $(call soong_config_set_bool,android_hardware_mediatek_codec2,link_v33_libstagefright_foundation,true)
