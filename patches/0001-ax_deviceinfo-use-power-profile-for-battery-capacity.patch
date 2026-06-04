@@ -1,0 +1,40 @@
+From c8323a19d814c9c41129d47607b7271b63cae0f7 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Tue, 26 May 2026 17:43:25 +0000
+Subject: [PATCH] [ax_deviceinfo] use PowerProfile for battery capacity
+
+Use PowerProfile as the source for battery capacity instead of
+BatteryManager design capacity, which may report incorrect values
+depending on kernel implementation.
+
+Change-Id: I16334af3e36b4dc53ef8c46e9a219c3c556f4824
+---
+ .../android/axion/deviceinfo/DeviceInfoProvider.kt   | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/ax_deviceinfo/src/com/android/axion/deviceinfo/DeviceInfoProvider.kt b/ax_deviceinfo/src/com/android/axion/deviceinfo/DeviceInfoProvider.kt
+index 6064e87..ebb43aa 100644
+--- a/ax_deviceinfo/src/com/android/axion/deviceinfo/DeviceInfoProvider.kt
++++ b/ax_deviceinfo/src/com/android/axion/deviceinfo/DeviceInfoProvider.kt
+@@ -213,14 +213,10 @@ object DeviceInfoProvider {
+     }
+ 
+     fun getBatteryCapacity(context: Context): String {
+-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+-        val designCapacityUah = batteryIntent?.getIntExtra(BatteryManager.EXTRA_DESIGN_CAPACITY, -1) ?: -1
+-        val capacityMah = if (designCapacityUah > 0) {
+-            designCapacityUah / 1000
+-        } else {
+-            PowerProfile(context).getAveragePower(PowerProfile.POWER_BATTERY_CAPACITY).roundToInt()
+-        }
+-        return "$capacityMah mAh"
++        val capacity = PowerProfile(context)
++            .getAveragePower(PowerProfile.POWER_BATTERY_CAPACITY)
++            .roundToInt()
++        return "$capacity mAh"
+     }
+ 
+     fun getScreenSize(): String {
+-- 
+2.43.0
+
