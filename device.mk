@@ -180,6 +180,9 @@ PRODUCT_PACKAGES += \
 # Dolby
 $(call inherit-product, vendor/sony/dolby/setup.mk)
 
+# JamesDSP
+$(call inherit-product-if-exists, vendor/JamesDSP/config.mk)
+
 # DRM
 PRODUCT_PACKAGES += \
     com.android.hardware.drm.clearkey \
@@ -286,6 +289,7 @@ PRODUCT_VENDOR_LINKER_CONFIG_FRAGMENTS += \
 
 # Matlog
 TARGET_DISABLE_MATLOG:= true
+TARGET_INCLUDE_MATLOG := false
 
 # Media
 $(call soong_config_set_bool,android_hardware_mediatek_codec2,link_v33_libstagefright_foundation,true)
