@@ -180,6 +180,9 @@ PRODUCT_PACKAGES += \
 # Dolby
 $(call inherit-product, vendor/sony/dolby/setup.mk)
 
+# JamesDSP
+$(call inherit-product-if-exists, vendor/JamesDSP/config.mk)
+
 # DRM
 PRODUCT_PACKAGES += \
     com.android.hardware.drm.clearkey \
