@@ -125,20 +125,22 @@ handle_patch_file() {
     rm -f "$temp_patch"
 }
 
-manage_tablet_patch() {
-    local script_dir root_dir target_dir
-    local -a patch_files
-
-    script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-
-    if [ -n "$ANDROID_BUILD_TOP" ] && [ -d "$ANDROID_BUILD_TOP/frameworks/base/.git" ]; then
-        root_dir="$ANDROID_BUILD_TOP"
-    elif [ -d "$script_dir/../../../frameworks/base/.git" ]; then
-        root_dir=$(cd "$script_dir/../../.." && pwd)
+resolve_root_dir() {
+    if [ -n "$ANDROID_BUILD_TOP" ] && [ -d "$ANDROID_BUILD_TOP" ]; then
+        printf '%s\n' "$ANDROID_BUILD_TOP"
+    elif [ -d "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)" ]; then
+        printf '%s\n' "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
     else
-        root_dir=$(pwd)
+        pwd
     fi
+}
 
+manage_tablet_patch() {
+    local root_dir target_dir
+    local -a patch_files temp_patches states
+    local all_not_applied all_applied do_apply do_revert
+
+    root_dir=$(resolve_root_dir)
     target_dir="$root_dir/frameworks/base"
 
     if [ ! -d "$target_dir/.git" ]; then
@@ -147,13 +149,89 @@ manage_tablet_patch() {
     fi
 
     patch_files=(
-        "$script_dir/patches/landscape-bootanim.patch"
-        "$script_dir/patches/tablet-fwb.patch"
+        "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/patches/landscape-bootanim.patch"
+        "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/patches/tablet-fwb.patch"
     )
 
+    all_not_applied=true
+    all_applied=true
+
     for patch_file in "${patch_files[@]}"; do
-        handle_patch_file "$target_dir" "$patch_file"
+        local temp_patch="/tmp/$(basename "$patch_file").$$"
+        tr -d '\r' < "$patch_file" > "$temp_patch" 2>/dev/null
+        local state
+        state=$(detect_patch_state "$target_dir" "$temp_patch")
+        temp_patches+=("$temp_patch")
+        states+=("$state")
+        case "$state" in
+            not_applied) all_applied=false ;;
+            applied) all_not_applied=false ;;
+            *) all_not_applied=false; all_applied=false ;;
+        esac
+    done
+
+    do_apply=false
+    do_revert=false
+
+    if is_interactive_shell; then
+        if $all_not_applied; then
+            if prompt_yes_no "Apply all tablet patches?"; then
+                do_apply=true
+            fi
+        elif $all_applied; then
+            if prompt_yes_no "Revert all tablet patches?"; then
+                do_revert=true
+            fi
+        else
+            info "Tablet patches in mixed state; normalizing."
+            do_apply=true
+            do_revert=true
+        fi
+    else
+        do_apply=true
+        do_revert=true
+    fi
+
+    for i in "${!patch_files[@]}"; do
+        local patch_file="${patch_files[$i]}"
+        local state="${states[$i]}"
+        local temp_patch="${temp_patches[$i]}"
+        local patch_name
+        patch_name=$(basename "$patch_file")
+
+        if $do_revert && [ "$state" = "applied" ]; then
+            if revert_patch_file "$target_dir" "$temp_patch"; then
+                success "Reverted $patch_name."
+            else
+                error "Failed to revert $patch_name."
+            fi
+        fi
+
+        if $do_apply && ( $do_revert || [ "$state" = "not_applied" ] ); then
+            if apply_patch_file "$target_dir" "$temp_patch"; then
+                success "Applied $patch_name."
+            else
+                error "Failed to apply $patch_name."
+            fi
+        fi
+
+        rm -f "$temp_patch"
     done
 }
 
+manage_axion_sdk_patch() {
+    local root_dir target_dir
+
+    root_dir=$(resolve_root_dir)
+    target_dir="$root_dir/axion_sdk"
+
+    [ -d "$target_dir/.git" ] || return 0
+
+    local patch_file
+    patch_file="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/patches/0001-ax_deviceinfo-use-power-profile-for-battery-capacity.patch"
+
+    handle_patch_file "$target_dir" "$patch_file"
+}
+
 manage_tablet_patch
+manage_axion_sdk_patch
