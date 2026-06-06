@@ -16,9 +16,25 @@ is_interactive_shell() {
     [ -t 0 ] && [ -t 1 ]
 }
 
+is_ci_environment() {
+    case "${CI:-}" in
+        1|true|TRUE|True|yes|YES|on|ON)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
 prompt_yes_no() {
     local prompt="$1"
     local reply
+
+    # CI jobs may still allocate a tty, so auto-accept there to avoid hangs.
+    if is_ci_environment; then
+        return 0
+    fi
 
     printf "%s [y/N] " "$prompt"
     IFS= read -r reply || return 1
@@ -233,5 +249,7 @@ manage_axion_sdk_patch() {
     handle_patch_file "$target_dir" "$patch_file"
 }
 
-manage_tablet_patch
-manage_axion_sdk_patch
+if [ "${VENDORSETUP_SKIP_AUTO_RUN:-0}" != "1" ]; then
+    manage_tablet_patch
+    manage_axion_sdk_patch
+fi
