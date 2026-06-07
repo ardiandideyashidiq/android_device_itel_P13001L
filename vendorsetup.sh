@@ -93,7 +93,9 @@ handle_patch_file() {
 
     case "$patch_state" in
         not_applied)
-            if is_interactive_shell; then
+            if is_ci_environment; then
+                info "CI environment detected; applying $patch_name."
+            elif is_interactive_shell; then
                 if ! prompt_yes_no "Apply $patch_name?"; then
                     info "Skipped $patch_name."
                     rm -f "$temp_patch"
@@ -189,7 +191,10 @@ manage_tablet_patch() {
     do_apply=false
     do_revert=false
 
-    if is_interactive_shell; then
+    if is_ci_environment; then
+        do_apply=true
+        do_revert=true
+    elif is_interactive_shell; then
         if $all_not_applied; then
             if prompt_yes_no "Apply all tablet patches?"; then
                 do_apply=true
