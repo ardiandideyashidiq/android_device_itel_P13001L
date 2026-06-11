@@ -1,19 +1,21 @@
+# Copyright (C) 2026 The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+
 # Audio
 persist.vendor.anr.dumpthr=1
-ro.audio.usb.period_us=16000
-ro.config.vc_call_vol_steps=9
 ro.audio.silent=0
+ro.audio.usb.period_us=16000
 ro.camera.sound.forced=0
-ro.config.media_vol_default=12
 ro.config.alarm_vol_default=12
+ro.config.media_vol_default=12
 ro.config.system_vol_default=12
+ro.config.vc_call_vol_steps=9
 
 # Bluetooth
-bluetooth.profile.sap.server.enabled=true
-bluetooth.profile.bas.client.enabled=true
-bluetooth.profile.asha.central.enabled=true
 bluetooth.profile.a2dp.source.enabled=true
+bluetooth.profile.asha.central.enabled=true
 bluetooth.profile.avrcp.target.enabled=true
+bluetooth.profile.bas.client.enabled=true
 bluetooth.profile.gatt.enabled=true
 bluetooth.profile.hfp.ag.enabled=true
 bluetooth.profile.hid.device.enabled=true
@@ -23,6 +25,7 @@ bluetooth.profile.opp.enabled=true
 bluetooth.profile.pan.nap.enabled=true
 bluetooth.profile.pan.panu.enabled=true
 bluetooth.profile.pbap.server.enabled=true
+bluetooth.profile.sap.server.enabled=true
 
 # Blur
 ro.sf.blurs_are_expensive=1
@@ -74,6 +77,7 @@ ro.opengles.version=196610
 persist.dbg.volte_avail_ovr=1
 persist.dbg.vt_avail_ovr=1
 persist.dbg.wfc_avail_ovr=1
+
 # Iorapd
 iorapd.perfetto.enable=false
 iorapd.readahead.enable=false
