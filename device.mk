@@ -6,7 +6,6 @@
 
 DEVICE_PATH := device/itel/P13001L
 KERNEL_PATH := $(DEVICE_PATH)-kernel
-COMMON_GKI_PATH := device/millennium/common-kernel
 CONFIGS_PATH := $(DEVICE_PATH)/configs
 
 # AAPT
@@ -255,7 +254,6 @@ PRODUCT_PACKAGES += \
     init.mt6789.usb.rc \
     init.mtkgki.rc \
     init.project.rc \
-    init.recovery.usb.rc \
     init.sensor_2_0.rc \
     fstab.mt8781 \
     fstab.mt8781.vendor_ramdisk \
@@ -439,7 +437,6 @@ PRODUCT_PACKAGES += \
     libdng_sdk.vendor \
     liblz4.vendor \
     libpiex \
-    libexpat.vendor \
     libpng.vendor \
     libion.vendor \
     libui.vendor \
@@ -454,8 +451,7 @@ PRODUCT_PACKAGES += \
     libsqlite.vendor \
     libtextclassifier_hash.vendor \
     libutilscallstack.vendor \
-    libziparchive.vendor \
-    libhidlmemory.vendor
+    libziparchive.vendor
 
 # Required libs as of 15 QPR2
 PRODUCT_PACKAGES += \
