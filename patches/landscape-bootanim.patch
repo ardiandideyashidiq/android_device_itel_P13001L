@@ -1,3 +1,6 @@
+# Copyright (C) 2026 The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+
 diff --git a/cmds/bootanimation/BootAnimation.cpp b/cmds/bootanimation/BootAnimation.cpp
 index abcdef1..abcdef2 100644
 --- a/cmds/bootanimation/BootAnimation.cpp

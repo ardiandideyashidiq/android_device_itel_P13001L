@@ -1,8 +1,5 @@
-#
 # Copyright (C) 2026 The LineageOS Project
-#
 # SPDX-License-Identifier: Apache-2.0
-#
 
 DEVICE_PATH := device/itel/P13001L
 KERNEL_PATH := $(DEVICE_PATH)-kernel
@@ -68,7 +65,6 @@ BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
-
 
 # Partitions
 SSI_PARTITIONS := product system system_ext

@@ -1,3 +1,6 @@
+# Copyright (C) 2026 The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+
 ## All proprietary files from this list, unless pinned and noted otherwise, are
 ## from sys_mssi_t_64_cn_armv82-user 14 UP1A.231005.007 1728750305 release-keys
 

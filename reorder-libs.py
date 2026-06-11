@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-#
+
 # Copyright (C) 2026 The LineageOS Project
-#
 # SPDX-License-Identifier: Apache-2.0
-#
 
 from functools import cmp_to_key
 from locale import LC_ALL, setlocale, strcoll

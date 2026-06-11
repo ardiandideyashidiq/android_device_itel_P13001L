@@ -1,3 +1,6 @@
+// Copyright (C) 2026 The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+
 rust_binary {
     name: "uart-keyboard-watchdog",
     crate_name: "uart_keyboard_watchdog",

@@ -1,3 +1,6 @@
+# Copyright (C) 2026 The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+
 ifeq (eng,$(TARGET_BUILD_VARIANT))
 VENDOR_LOG_LEVEL=I
 else

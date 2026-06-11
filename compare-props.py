@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-#
+
 # Copyright (C) 2026 The LineageOS Project
-#
 # SPDX-License-Identifier: Apache-2.0
-#
 
 from __future__ import annotations
 
@@ -12,7 +10,6 @@ import sys
 
 from dataclasses import dataclass
 from pathlib import Path
-
 
 DEFAULT_DUMP_ROOT = Path("stock_dump")
 TREE_PROP_FILES = (
@@ -29,7 +26,6 @@ SOURCE_PRIORITY = {
     Path("configs/properties/vendor.prop"): ("vendor", "system", "product"),
 }
 
-
 @dataclass(frozen=True)
 class PropertyMatch:
     key: str
@@ -43,13 +39,11 @@ class PropertyMatch:
     def is_mismatch(self) -> bool:
         return self.tree_value != self.stock_value
 
-
 @dataclass(frozen=True)
 class ParsedTreeProps:
     lines: list[str]
     props: dict[str, str]
     line_indexes: dict[str, list[int]]
-
 
 def parse_prop_lines(path: Path) -> ParsedTreeProps:
     lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
@@ -68,7 +62,6 @@ def parse_prop_lines(path: Path) -> ParsedTreeProps:
 
     return ParsedTreeProps(lines=lines, props=props, line_indexes=line_indexes)
 
-
 def parse_prop_values(path: Path) -> dict[str, str]:
     props: dict[str, str] = {}
 
@@ -82,7 +75,6 @@ def parse_prop_values(path: Path) -> dict[str, str]:
 
     return props
 
-
 def choose_stock_value(
     key: str,
     dump_sources: dict[str, tuple[Path, dict[str, str]]],
@@ -94,7 +86,6 @@ def choose_stock_value(
             return source_name, source_file, props[key]
 
     return None
-
 
 def write_updated_props(
     path: Path,
@@ -113,7 +104,6 @@ def write_updated_props(
             new_lines[line_idx] = f"{key}={new_value}{suffix}"
 
     path.write_text("".join(new_lines), encoding="utf-8")
-
 
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -134,7 +124,6 @@ def build_argument_parser() -> argparse.ArgumentParser:
         help="Rewrite mismatched values in configs/properties/*.prop",
     )
     return parser
-
 
 def main() -> int:
     args = build_argument_parser().parse_args()
@@ -256,7 +245,6 @@ def main() -> int:
         return 0
 
     return 1 if mismatches or unmatched else 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
