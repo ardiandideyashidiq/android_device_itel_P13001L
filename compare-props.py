@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-DEFAULT_DUMP_ROOT = Path("/home/rd/temp/dumpyara/P13001L-M131-U-GL-250305V19")
+DEFAULT_DUMP_ROOT = Path("stock_dump")
 TREE_PROP_FILES = (
     Path("configs/properties/system.prop"),
     Path("configs/properties/vendor.prop"),
