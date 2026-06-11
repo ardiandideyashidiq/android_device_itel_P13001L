@@ -4,10 +4,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/itel/P13001L
-KERNEL_PATH := $(DEVICE_PATH)-kernel
-CONFIGS_PATH := $(DEVICE_PATH)/configs
-
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
@@ -19,10 +15,6 @@ TARGET_SCREEN_WIDTH := 1200
 
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 31
-
-# Soong namespaces
-PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH)
 
 # A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
@@ -379,7 +371,7 @@ PRODUCT_COPY_FILES += \
 
 ifeq ($(WITH_GMS),true)
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/permissions/privapp-permissions-gms.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-gms.xml
+    $(LOCAL_PATH)/configs/permissions/privapp-permissions-gms.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-gms.xml
 endif
 
 # MTK Engineering Mode
