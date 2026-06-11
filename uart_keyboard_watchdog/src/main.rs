@@ -17,12 +17,12 @@ use crate::logging::Logger;
 
 fn main() -> ExitCode {
     let config = Config::from_env();
-    let logger = Logger::new(config.log_tag.clone());
+    let logger = Logger::new(&config.log_tag);
 
     match run(&config, &logger) {
         Ok(()) => ExitCode::SUCCESS,
         Err(error) => {
-            logger.warn(&format!("uart-keyboard-watchdog exiting: {error}"));
+            logger.warn(format_args!("uart-keyboard-watchdog exiting: {error}"));
             ExitCode::FAILURE
         }
     }

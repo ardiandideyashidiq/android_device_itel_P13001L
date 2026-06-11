@@ -24,7 +24,7 @@ pub(crate) fn run(config: &Config, logger: &Logger) -> io::Result<()> {
             Ok(true) => ObservedState::Attached,
             Ok(false) => ObservedState::Detached,
             Err(error) => {
-                logger.warn(&format!("failed to read dock switch state: {error}"));
+                logger.warn(format_args!("failed to read dock switch state: {error}"));
                 monitor = wait_for_input_monitor(config, logger);
                 thread::sleep(config.state_poll_interval);
                 continue;
@@ -42,7 +42,7 @@ pub(crate) fn run(config: &Config, logger: &Logger) -> io::Result<()> {
 
             match android::apply_dock_state(config, attached) {
                 Ok(()) => controller.mark_applied(transition),
-                Err(error) => logger.warn(&format!(
+                Err(error) => logger.warn(format_args!(
                     "failed to apply dock {} transition: {error}",
                     if attached { "attach" } else { "detach" }
                 )),
@@ -63,7 +63,7 @@ fn wait_for_input_monitor(config: &Config, logger: &Logger) -> InputMonitor {
             }
             Ok(None) => thread::sleep(config.node_wait_interval),
             Err(error) => {
-                logger.warn(&format!("failed to scan input devices: {error}"));
+                logger.warn(format_args!("failed to scan input devices: {error}"));
                 thread::sleep(config.node_wait_interval);
             }
         }

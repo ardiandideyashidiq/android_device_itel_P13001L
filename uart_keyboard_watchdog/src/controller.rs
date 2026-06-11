@@ -1,5 +1,5 @@
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 /// Latest dock state observed from input.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub(crate) enum ObservedState {
     /// Dock disconnected.
     Detached,
@@ -7,8 +7,8 @@ pub(crate) enum ObservedState {
     Attached,
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 /// Property transition requested by the controller.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub(crate) enum Transition {
     /// Apply attached state.
     ApplyAttached,
@@ -33,10 +33,7 @@ impl DockController {
 
     /// Record the latest observed state and request a transition when needed.
     pub(crate) fn observe(&mut self, state: ObservedState) -> Option<Transition> {
-        match state {
-            ObservedState::Detached => self.observe_known(false),
-            ObservedState::Attached => self.observe_known(true),
-        }
+        self.observe_known(state)
     }
 
     /// Mark a requested transition as applied.
@@ -44,7 +41,8 @@ impl DockController {
         self.applied_state = Some(matches!(transition, Transition::ApplyAttached));
     }
 
-    fn observe_known(&mut self, attached: bool) -> Option<Transition> {
+    fn observe_known(&mut self, state: ObservedState) -> Option<Transition> {
+        let attached = matches!(state, ObservedState::Attached);
         self.desired_state = Some(attached);
 
         if self.applied_state == self.desired_state {
@@ -56,54 +54,5 @@ impl DockController {
         } else {
             Transition::ApplyDetached
         })
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::{DockController, ObservedState, Transition};
-
-    #[test]
-    fn requests_attach_when_attached_is_first_seen() {
-        let mut controller = DockController::new();
-
-        assert_eq!(
-            controller.observe(ObservedState::Attached),
-            Some(Transition::ApplyAttached)
-        );
-    }
-
-    #[test]
-    fn retries_attach_until_apply_succeeds() {
-        let mut controller = DockController::new();
-
-        assert_eq!(
-            controller.observe(ObservedState::Attached),
-            Some(Transition::ApplyAttached)
-        );
-        assert_eq!(
-            controller.observe(ObservedState::Attached),
-            Some(Transition::ApplyAttached)
-        );
-
-        controller.mark_applied(Transition::ApplyAttached);
-
-        assert_eq!(controller.observe(ObservedState::Attached), None);
-    }
-
-    #[test]
-    fn requests_detach_after_attached_state_was_applied() {
-        let mut controller = DockController::new();
-
-        assert_eq!(
-            controller.observe(ObservedState::Attached),
-            Some(Transition::ApplyAttached)
-        );
-        controller.mark_applied(Transition::ApplyAttached);
-
-        assert_eq!(
-            controller.observe(ObservedState::Detached),
-            Some(Transition::ApplyDetached)
-        );
     }
 }

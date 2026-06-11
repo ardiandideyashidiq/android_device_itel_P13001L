@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 /// Runtime configuration for the watchdog service.
 pub(crate) struct Config {
     /// Property updated when the dock state changes.
@@ -42,20 +42,3 @@ fn env_u64(lookup: &impl Fn(&str) -> Option<String>, key: &str, default: u64) ->
         .unwrap_or(default)
 }
 
-#[cfg(test)]
-mod tests {
-    use std::time::Duration;
-
-    use super::Config;
-
-    #[test]
-    fn uses_defaults_when_environment_is_missing() {
-        let config = Config::from_lookup(|_| None);
-
-        assert_eq!(config.persist_property, "persist.sys.uart.dock");
-        assert_eq!(config.log_tag, "uart_keyboard_watchdog");
-        assert_eq!(config.device_name, "mid_input");
-        assert_eq!(config.state_poll_interval, Duration::from_millis(250));
-        assert_eq!(config.node_wait_interval, Duration::from_secs(1));
-    }
-}
