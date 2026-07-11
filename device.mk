@@ -243,13 +243,7 @@ PRODUCT_PACKAGES += \
     init.mt6789.usb.rc \
     init.mtkgki.rc \
     init.project.rc \
-    init.sensor_2_0.rc \
-    fstab.mt8781 \
-    fstab.mt8781.vendor_ramdisk \
-    init.insmod.mt8781.cfg \
-    init.mt8781.power.rc \
-    init.mt8781.rc \
-    init.mt8781.usb.rc
+    init.sensor_2_0.rc
 
 # Enable DM file pre-opting to reduce first boot time
 PRODUCT_DEX_PREOPT_GENERATE_DM_FILES := true
