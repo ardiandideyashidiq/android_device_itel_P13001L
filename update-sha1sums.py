@@ -25,6 +25,7 @@ def cleanup():
         lines[index] = line.split('|')[0]
 
 def update():
+    needSHA1 = False
     for index, line in enumerate(lines):
         # Skip empty lines
         if len(line) == 0:
