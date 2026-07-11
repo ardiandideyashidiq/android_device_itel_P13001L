@@ -54,7 +54,7 @@ odm_dlkm /odm_dlkm ext4 ro wait,slotselect,avb,logical,first_stage_mount
 /dev/block/by-name/nvram /nvram emmc defaults defaults
 /dev/block/by-name/proinfo /proinfo emmc defaults defaults
 /dev/block/by-name/lk /bootloader emmc defaults defaults
-/dev/block/by-name/lk2 /bootloader2 emmc defaults defaults
+/dev/block/by-name/lk2 /bootloader2 emmc defaults nofail
 /dev/block/by-name/para /para emmc defaults defaults
 /dev/block/by-name/misc /misc emmc defaults defaults
 
@@ -96,8 +96,8 @@ odm_dlkm /odm_dlkm ext4 ro wait,slotselect,avb,logical,first_stage_mount
 
 /dev/block/by-name/md1img /md1img emmc defaults defaults
 /dev/block/by-name/md1dsp /md1dsp emmc defaults defaults
-/dev/block/by-name/md1arm7 /md1arm7 emmc defaults defaults
-/dev/block/by-name/md3img /md3img emmc defaults defaults
+/dev/block/by-name/md1arm7 /md1arm7 emmc defaults nofail
+/dev/block/by-name/md3img /md3img emmc defaults nofail
 
 
 
@@ -116,7 +116,7 @@ odm_dlkm /odm_dlkm ext4 ro wait,slotselect,avb,logical,first_stage_mount
 
 /dev/block/by-name/pi_img /pi_img emmc defaults defaults
 /dev/block/by-name/boot_para /boot_para emmc defaults defaults
-/dev/block/by-name/odmdtbo /odmdtbo emmc defaults defaults
+/dev/block/by-name/odmdtbo /odmdtbo emmc defaults nofail
 /dev/block/by-name/dtbo /dtbo emmc defaults defaults
 
 /dev/block/by-name/otp /otp emmc defaults defaults
