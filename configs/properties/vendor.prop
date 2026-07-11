@@ -236,7 +236,10 @@ ro.vendor.rc=/vendor/etc/init/hw/
 # MTK Stuff
 persist.vendor.factory.GB2312=yes
 ro.netflix.bsp_rev=MTK6789-35965-1
-ro.vendor.efuse_writer_enable=1
+# eFuse writer must remain disabled in production builds.
+# Enabling it (setting to 1) allows permanent modification of
+# hardware security fuses if root is obtained.
+ro.vendor.efuse_writer_enable=0
 ro.vendor.mml.mtk_mml_support=0
 ro.vendor.mtk_aal_support=1
 ro.vendor.mtk_fast_charging_support=1
