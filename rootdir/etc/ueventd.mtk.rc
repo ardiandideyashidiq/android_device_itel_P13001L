@@ -77,11 +77,11 @@
 
 # TrustonicTEE driver
 /dev/mobicore             0600   system     system
-/dev/mobicore-user        0666   system     system
-/dev/t-base-tui           0666   system     system
+/dev/mobicore-user        0660   system     system
+/dev/t-base-tui           0660   system     system
 
 # teeperf driver
-/dev/teeperf              0666   system     system
+/dev/teeperf              0660   system     system
 
 #v4l2 device
 /dev/video*      0660 camera system
@@ -105,7 +105,7 @@
 /dev/mddp                 0660   system     system
 
 #add uart
-/dev/ttyS*	0666    root       root
+/dev/ttyS*	0660    radio      radio
 
 # add the read write right of ttyUSB*
 /dev/bus/usb/*     	  0660   root       usb
@@ -138,8 +138,8 @@
 /dev/lirc*                0660   root       system
 /dev/ir-learning          0660   system     system
 # SGX device node
-/dev/pvrsrvkm             0666   root       root
-/dev/pvr_sync             0666   root       root
+/dev/pvrsrvkm             0660   root       system
+/dev/pvr_sync             0660   root       system
 
 
 /sys/devices/platform/leds-mt65xx/leds/green   delay_on      0664  system   system
@@ -192,10 +192,10 @@
 /dev/ttyRB*               0660   radio      radio
 
 # Mali node
-/dev/mali0                0666   system     graphics
+/dev/mali0                0660   system     graphics
 
 # Change ION driver permission
-/dev/ion                  0666   system     graphics
+/dev/ion                  0660   system     graphics
 
 # Change DMA_HEAP deice permission
 #     refs: /system/core/rootdir/uevent.rc
@@ -238,5 +238,5 @@
 /dev/wb_charger_control   0660   system     system
 
 #finger
-/dev/focaltech_fp         0666   system     system
-/dev/focaltech_fpspi	  0666   system     system
+/dev/focaltech_fp         0660   system     system
+/dev/focaltech_fpspi	  0660   system     system

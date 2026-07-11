@@ -27,7 +27,7 @@ on init
 # mount different fs start
 
 on property:init.svc.vendor.charger=running
-    chmod 0666 /dev/kmsg
+    chmod 0640 /dev/kmsg
     chmod 0775 /mnt/vendor
     mkdir /mnt/vendor/nvcfg
     mount ext4 /dev/block/by-name/nvcfg /mnt/vendor/nvcfg rw wait
@@ -130,7 +130,7 @@ on post-fs-data
 #ITD:modify for cam SN bind by huihang.zhou 20230302 start
 #CAM OTP SN
     chown root root /sys/class/sensordrv/tran_imgsensor/tran_imgsensor_sn
-    chmod 0666 /sys/class/sensordrv/tran_imgsensor/tran_imgsensor_sn
+    chmod 0660 /sys/class/sensordrv/tran_imgsensor/tran_imgsensor_sn
 #ITD:modify for cam SN bind by huihang.zhou 20230302 end
 
     # Set SELinux security contexts on upgrade or policy update.
@@ -143,7 +143,8 @@ on post-fs-data
     mkdir /dev/radio 0770 radio radio
 
     # GPS
-    chmod 0666 /dev/gps_emi
+    chown gps gps /dev/gps_emi
+    chmod 0660 /dev/gps_emi
 
 # -----------------------
 # Add by MTK
@@ -179,7 +180,8 @@ on post-fs-data
     chown media media /dev/audio_ipi
 
     #Fingerprint
-    chmod 0666 /dev/goodix_fp
+    chown system system /dev/goodix_fp
+    chmod 0660 /dev/goodix_fp
 
     #v4l2 codec
     chmod 0660 /dev/vcu
@@ -270,7 +272,7 @@ on post-fs-data
     chown system camera /dev/MAINAF
 #fake dual camera
     chown root root /sys/class/main2_light/main2_light/main2_light
-    chmod 0666 /sys/class/main2_light/main2_light/main2_light
+    chmod 0660 /sys/class/main2_light/main2_light/main2_light
     chown system camera /sys/kernel/debug/mtk_cam_dbg/0/ctrl
     chown system camera /sys/kernel/debug/mtk_cam_dbg/1/ctrl
     chown system camera /sys/kernel/debug/mtk_cam_dbg/2/ctrl
@@ -319,14 +321,14 @@ on boot
     chown system system /sys/class/leds/lcd-backlight/brightness
 
     #BSP:add for charger&led midtest by lei.shi5 20220505 start
-    chmod 0666 /dev/MT_pmic_adc_cali
-    chmod 0666 /sys/class/leds/red/brightness
-    chmod 0666 /sys/class/leds/blue/brightness
-    chmod 0666 /sys/class/leds/green/brightness
-    chmod 0666 /sys/devices/platform/odm/odm:tran_battery/tran_bat_temp
-    chmod 0666 /sys/devices/platform/odm/odm:tran_battery/CHG_CAPACITY_TEST
-    chmod 0666 /sys/devices/platform/odm/odm:tran_battery/tran_set_current
-    chmod 0666 /sys/devices/platform/charger/Charger_Type
+    chmod 0660 /dev/MT_pmic_adc_cali
+    chmod 0660 /sys/class/leds/red/brightness
+    chmod 0660 /sys/class/leds/blue/brightness
+    chmod 0660 /sys/class/leds/green/brightness
+    chmod 0660 /sys/devices/platform/odm/odm:tran_battery/tran_bat_temp
+    chmod 0660 /sys/devices/platform/odm/odm:tran_battery/CHG_CAPACITY_TEST
+    chmod 0660 /sys/devices/platform/odm/odm:tran_battery/tran_set_current
+    chmod 0660 /sys/devices/platform/charger/Charger_Type
     #BSP:add for charger&led midtest by lei.shi5 20220505 end
 
     chown system system /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
@@ -337,8 +339,8 @@ on boot
     chown system system /sys/class/leds/lcd-backlight/trigger
 
 #ITD:add flashlight by isp team 20220412 start
-    chmod 0666 /sys/devices/virtual/torch/torch/torch_level
-    chmod 0666 /sys/devices/virtual/sub_torch/sub_torch/sub_torch_level
+    chmod 0660 /sys/devices/virtual/torch/torch/torch_level
+    chmod 0660 /sys/devices/virtual/sub_torch/sub_torch/sub_torch_level
 #ITD:add flashlight by isp team 20220412 end
     # gauge symbolic
     symlink /sys/devices/platform/soc/10026000.pwrap/10026000.pwrap:mt6366/mt6358-gauge /dev/gauge
@@ -413,9 +415,9 @@ on property:sys.boot_completed=1
     write /sys/devices/platform/odm/odm:tran_battery/OTG_CTL 1
 
     #add uart docking
-    chmod 0666 /dev/mid_uart
+    chmod 0660 /dev/mid_uart
     chown system system /dev/mid_uart
-    chmod 0666 /dev/ttyS2
+    chmod 0660 /dev/ttyS2
     chown root root /dev/ttyS2
     chmod 0666 /vendor/bin/mid_uart_dock
     chown system system /vendor/bin/mid_uart_dock
