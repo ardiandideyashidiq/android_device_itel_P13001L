@@ -2,6 +2,7 @@
   "Nodes": [
     {
       "Name": "CAMUClampBoost",
+      "Type": "Sysfs",
       "Path": "/dev/cpuctl/camera-daemon/cpu.uclamp.min",
       "Values": [
         "60",
@@ -13,6 +14,7 @@
     },
     {
       "Name": "CciFreq",
+      "Type": "Sysfs",
       "Path": "/sys/kernel/cm_mgr/dbg_cm_mgr",
       "Values": [
         "0",
@@ -23,6 +25,7 @@
     },
     {
       "Name": "CPUEfficiencyClusterMaxFreq",
+      "Type": "Sysfs",
       "Path": "/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",
       "Values": [
         "2000000",
@@ -55,6 +58,7 @@
     },
     {
       "Name": "CPUEfficiencyClusterMinFreq",
+      "Type": "Sysfs",
       "Path": "/sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq",
       "Values": [
         "2000000",
@@ -86,6 +90,7 @@
     },
     {
       "Name": "CPUSuperClusterMaxFreq",
+      "Type": "Sysfs",
       "Path": "/sys/devices/system/cpu/cpufreq/policy6/scaling_max_freq",
       "Values": [
         "2200000",
@@ -110,6 +115,7 @@
     },
     {
       "Name": "CPUSuperClusterMinFreq",
+      "Type": "Sysfs",
       "Path": "/sys/devices/system/cpu/cpufreq/policy6/scaling_min_freq",
       "Values": [
         "2200000",
@@ -133,6 +139,7 @@
     },
     {
       "Name": "FGUclampMin",
+      "Type": "Sysfs",
       "Path": "/dev/cpuctl/foreground/cpu.uclamp.min",
       "Values": [
         "0",
@@ -144,6 +151,7 @@
     },
     {
       "Name": "GpuDvfsLoadingStep",
+      "Type": "Sysfs",
       "Path": "/sys/kernel/ged/hal/loading_base_dvfs_step",
       "Values": [
         "4",
@@ -155,6 +163,7 @@
     },
     {
       "Name": "GpuDvfsTimerMargin",
+      "Type": "Sysfs",
       "Path": "/sys/kernel/ged/hal/timer_base_dvfs_margin",
       "Values": [
         "798",
@@ -166,6 +175,7 @@
     },
     {
       "Name": "GpuPwrLevel",
+      "Type": "Sysfs",
       "Path": "/sys/kernel/ged/hal/custom_boost_gpu_freq",
       "Values": [
         "37",
@@ -252,6 +262,7 @@
     },
     {
       "Name": "MemFreq",
+      "Type": "Sysfs",
       "Path": "/sys/devices/platform/soc/10012000.dvfsrc/mtk-dvfsrc-devfreq/devfreq/mtk-dvfsrc-devfreq/userspace/set_freq",
       "Values": [
         "4266000000",
@@ -260,8 +271,7 @@
         "1866000000",
         "1600000000",
         "1200000000",
-        "800000000",
-        "0"
+        "800000000"
       ],
       "ResetOnInit": true,
       "Comments": [
@@ -288,6 +298,7 @@
     },
     {
       "Name": "TAUclampMin",
+      "Type": "Sysfs",
       "Path": "/dev/cpuctl/top-app/cpu.uclamp.min",
       "Values": [
         "0",
@@ -527,6 +538,48 @@
       "Value": "100"
     },
     {
+      "PowerHint": "LOW_POWER",
+      "Node": "CPUEfficiencyClusterMaxFreq",
+      "Duration": 0,
+      "Value": "500000"
+    },
+    {
+      "PowerHint": "LOW_POWER",
+      "Node": "CPUEfficiencyClusterMinFreq",
+      "Duration": 0,
+      "Value": "500000"
+    },
+    {
+      "PowerHint": "LOW_POWER",
+      "Node": "CPUSuperClusterMaxFreq",
+      "Duration": 0,
+      "Value": "725000"
+    },
+    {
+      "PowerHint": "LOW_POWER",
+      "Node": "CPUSuperClusterMinFreq",
+      "Duration": 0,
+      "Value": "725000"
+    },
+    {
+      "PowerHint": "LOW_POWER",
+      "Node": "GpuPwrLevel",
+      "Duration": 0,
+      "Value": "37"
+    },
+    {
+      "PowerHint": "LOW_POWER",
+      "Node": "MemFreq",
+      "Duration": 0,
+      "Value": "800000000"
+    },
+    {
+      "PowerHint": "LOW_POWER",
+      "Node": "TAUclampMin",
+      "Duration": 0,
+      "Value": "0"
+    },
+    {
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "CPUEfficiencyClusterMaxFreq",
       "Duration": 0,
@@ -543,6 +596,60 @@
       "Node": "PowerHALMainState",
       "Duration": 0,
       "Value": "SUSTAINED_PERFORMANCE"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "CciFreq",
+      "Duration": 0,
+      "Value": "1"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "CPUEfficiencyClusterMaxFreq",
+      "Duration": 0,
+      "Value": "2000000"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "CPUEfficiencyClusterMinFreq",
+      "Duration": 0,
+      "Value": "2000000"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "CPUSuperClusterMaxFreq",
+      "Duration": 0,
+      "Value": "2200000"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "CPUSuperClusterMinFreq",
+      "Duration": 0,
+      "Value": "2200000"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "GpuDvfsTimerMargin",
+      "Duration": 0,
+      "Value": "50"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "GpuPwrLevel",
+      "Duration": 0,
+      "Value": "0"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "MemFreq",
+      "Duration": 0,
+      "Value": "4266000000"
+    },
+    {
+      "PowerHint": "VR_MODE",
+      "Node": "TAUclampMin",
+      "Duration": 0,
+      "Value": "100"
     }
   ]
 }
