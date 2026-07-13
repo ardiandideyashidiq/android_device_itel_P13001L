@@ -1,18 +1,6 @@
 # Copyright (C) 2026 The LineageOS Project
 # SPDX-License-Identifier: Apache-2.0
 
-# AAPT
-PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREF_CONFIG := xxhdpi
-PRODUCT_CHARACTERISTICS := tablet
-
-# Boot animation
-TARGET_SCREEN_HEIGHT := 1920
-TARGET_SCREEN_WIDTH := 1200
-
-# Shipping API level
-PRODUCT_SHIPPING_API_LEVEL := 31
-
 # A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
@@ -33,72 +21,76 @@ AB_OTA_PARTITIONS := \
     vendor_dlkm
 
 AB_OTA_POSTINSTALL_CONFIG += \
-    RUN_POSTINSTALL_system=true \
-    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
     FILESYSTEM_TYPE_system=$(BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE) \
+    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+    RUN_POSTINSTALL_system=true \
     POSTINSTALL_OPTIONAL_system=true
 
 AB_OTA_POSTINSTALL_CONFIG += \
-    RUN_POSTINSTALL_vendor=true \
-    POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
     FILESYSTEM_TYPE_vendor=$(BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE) \
+    POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
+    RUN_POSTINSTALL_vendor=true \
     POSTINSTALL_OPTIONAL_vendor=true
 
 PRODUCT_PACKAGES += \
+    checkpoint_gc \
+    create_pl_dev \
+    create_pl_dev.recovery \
+    otapreopt_script \
     update_engine \
     update_engine_sideload \
-    update_verifier \
-    otapreopt_script \
-    checkpoint_gc
-
-PRODUCT_PACKAGES += \
-    create_pl_dev \
-    create_pl_dev.recovery
+    update_verifier
 
 PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
+
+# AAPT
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := xxhdpi
+PRODUCT_CHARACTERISTICS := tablet
 
 # Audio
 $(call soong_config_set,android_hardware_audio,run_64bit,true)
 $(call soong_config_set_bool,android_hardware_audio,skip_speaker_layout_channel_mask_field,true)
+
 PRODUCT_PACKAGES += \
-    android.hardware.audio@7.0-impl:64 \
     android.hardware.audio.effect@7.0-impl:64 \
     android.hardware.audio.service \
+    android.hardware.audio@7.0-impl:64 \
     android.hardware.bluetooth.audio-impl:64 \
     android.hardware.soundtrigger@2.3-impl:64
 
 PRODUCT_PACKAGES += \
-    audio.primary.default:64 \
     audio.bluetooth.default:64 \
+    audio.primary.default:64 \
     audio.r_submix.default:64 \
     audio.usb.default:64
 
 PRODUCT_PACKAGES += \
-    audio_policy.stub:64 \
-    libopus.vendor:64 \
     audioclient-types-aidl-cpp.vendor:64 \
-    libaudioroute.vendor:64 \
-    libaudiofoundation.vendor:64 \
-    libbundlewrapper:64 \
-    libbluetooth_audio_session:64 \
-    libaudiopreprocessing:64 \
+    audio_policy.stub:64 \
     libalsautils:64 \
+    libaudiofoundation.vendor:64 \
+    libaudiopreprocessing:64 \
+    libaudioroute.vendor:64 \
+    libbluetooth_audio_session:64 \
+    libbundlewrapper:64 \
     libdownmix:64 \
-    libeffectproxy:64 \
-    libnbaio_mono:64 \
-    libtinycompress:64 \
     libdynproc:64 \
+    libeffectproxy:64 \
     libhapticgenerator:64 \
     libldnhncr:64 \
+    libnbaio_mono:64 \
+    libopus.vendor:64 \
+    libprocessgroup.vendor:64 \
     libreverbwrapper:64 \
-    libprocessgroup.vendor:64
+    libtinycompress:64
 
 PRODUCT_PACKAGES += \
     MtkInCallService
 
 PRODUCT_PACKAGES += \
-   vendor.mediatek.hardware.bluetooth.audio@2.1.vendor:64 \
-   vendor.mediatek.hardware.bluetooth.audio@2.2.vendor:64
+    vendor.mediatek.hardware.bluetooth.audio@2.1.vendor:64 \
+    vendor.mediatek.hardware.bluetooth.audio@2.2.vendor:64
 
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/audio/,$(TARGET_COPY_OUT_VENDOR)/etc)
@@ -116,10 +108,14 @@ TARGET_EXCLUDES_AUDIOFX := true
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth-service.mediatek
 
+# Boot animation
+TARGET_SCREEN_HEIGHT := 1920
+TARGET_SCREEN_WIDTH := 1200
+
 # Boot control HAL
 PRODUCT_PACKAGES += \
-    com.android.hardware.boot:64 \
-    android.hardware.boot-service.default_recovery:64
+    android.hardware.boot-service.default_recovery:64 \
+    com.android.hardware.boot:64
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -127,27 +123,19 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.device@3.6.vendor:64 \
     android.hardware.camera.provider@2.6.vendor:64
 
-# Dalvik configs
-PRODUCT_VENDOR_PROPERTIES += \
-    dalvik.vm.heapstartsize=24m \
-    dalvik.vm.heapgrowthlimit=256m \
-    dalvik.vm.heapsize=512m \
-    dalvik.vm.heaptargetutilization=0.46 \
-    dalvik.vm.heapminfree=8m \
-    dalvik.vm.heapmaxfree=48m
-
-    
-# Dock keyboard watchdog
-PRODUCT_PACKAGES += \
-    uart-keyboard-watchdog
-
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/idc/,$(TARGET_COPY_OUT_VENDOR)/usr/idc)
-
 # Cgroup
 PRODUCT_COPY_FILES += \
     system/core/libprocessgroup/profiles/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
     system/core/libprocessgroup/profiles/task_profiles.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
+
+# Dalvik configs
+PRODUCT_VENDOR_PROPERTIES += \
+    dalvik.vm.heapgrowthlimit=256m \
+    dalvik.vm.heapmaxfree=48m \
+    dalvik.vm.heapminfree=8m \
+    dalvik.vm.heapsize=512m \
+    dalvik.vm.heapstartsize=24m \
+    dalvik.vm.heaptargetutilization=0.46
 
 # Display
 PRODUCT_PACKAGES += \
@@ -165,19 +153,26 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     ANGLE
 
+# Dock keyboard watchdog
+PRODUCT_PACKAGES += \
+    uart-keyboard-watchdog
+
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/idc/,$(TARGET_COPY_OUT_VENDOR)/usr/idc)
+
 # Dolby
 $(call inherit-product, vendor/sony/dolby/setup.mk)
 
-# JamesDSP
-$(call inherit-product-if-exists, vendor/JamesDSP/config.mk)
-
 # DRM
 PRODUCT_PACKAGES += \
-    com.android.hardware.drm.clearkey \
-    android.hardware.drm@1.4.vendor
+    android.hardware.drm@1.4.vendor \
+    com.android.hardware.drm.clearkey
 
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
+# Enable DM file pre-opting to reduce first boot time
+PRODUCT_DEX_PREOPT_GENERATE_DM_FILES := true
 
 # Enforce generic ramdisk allow list
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
@@ -196,9 +191,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.gnss.measurement_corrections@1.1.vendor:64 \
     android.hardware.gnss.visibility_control@1.0.vendor:64 \
+    android.hardware.gnss-V1-ndk.vendor:64 \
     android.hardware.gnss@1.1.vendor:64 \
-    android.hardware.gnss@2.1.vendor:64 \
-    android.hardware.gnss-V1-ndk.vendor:64
+    android.hardware.gnss@2.1.vendor:64
 
 # Health
 PRODUCT_PACKAGES += \
@@ -208,15 +203,15 @@ PRODUCT_PACKAGES += \
 
 # HIDL
 PRODUCT_PACKAGES += \
-    android.hidl.base@1.0:64 \
     android.hidl.allocator@1.0:64 \
-    android.hidl.base@1.0.vendor:64 \
     android.hidl.allocator@1.0.vendor:64 \
-    libhidltransport:64 \
+    android.hidl.base@1.0:64 \
+    android.hidl.base@1.0.vendor:64 \
     libhidlmemory.vendor:64 \
     libhidltransport.vendor:64 \
-    libhwbinder:64 \
-    libhwbinder.vendor:64
+    libhidltransport:64 \
+    libhwbinder.vendor:64 \
+    libhwbinder:64
 
 # IMS
 $(call inherit-product, vendor/mediatek/ims/ims.mk)
@@ -228,31 +223,25 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 PRODUCT_PACKAGES += \
     fstab.emmc \
     fstab.emmc.vendor_ramdisk \
-    init.recovery.usb.rc \
-    ueventd.mtk.rc \
     fstab.mt6789 \
     fstab.mt6789.vendor_ramdisk \
-    init_connectivity.rc \
     init.connectivity.common.rc \
     init.connectivity.rc \
-    init.insmod.sh \
     init.insmod.mt6789.cfg \
+    init.insmod.sh \
     init.modem.rc \
     init.mt6789.power.rc \
     init.mt6789.rc \
     init.mt6789.usb.rc \
     init.mtkgki.rc \
     init.project.rc \
+    init.recovery.usb.rc \
     init.sensor_2_0.rc \
-    fstab.mt8781 \
-    fstab.mt8781.vendor_ramdisk \
-    init.insmod.mt8781.cfg \
-    init.mt8781.power.rc \
-    init.mt8781.rc \
-    init.mt8781.usb.rc
+    init_connectivity.rc \
+    ueventd.mtk.rc
 
-# Enable DM file pre-opting to reduce first boot time
-PRODUCT_DEX_PREOPT_GENERATE_DM_FILES := true
+# JamesDSP
+$(call inherit-product-if-exists, vendor/JamesDSP/config.mk)
 
 # Keymaster
 PRODUCT_COPY_FILES += \
@@ -261,43 +250,58 @@ PRODUCT_COPY_FILES += \
 # Keymint
 PRODUCT_PACKAGES += \
     android.hardware.security.keymint-V1-ndk.vendor:64 \
+    android.hardware.security.rkp-V3-ndk.vendor:64 \
     android.hardware.security.secureclock-V1-ndk.vendor:64 \
     android.hardware.security.sharedsecret-V1-ndk.vendor:64 \
-    android.hardware.security.rkp-V3-ndk.vendor:64 \
     libcppbor_external.vendor:64
 
 # Lights
 PRODUCT_PACKAGES += \
     android.hardware.light-service.lineage
 
+# Lineage-Specific Overlays
+PRODUCT_PACKAGES += \
+    ApertureResTarget
+
+PRODUCT_PACKAGES += \
+    NcmTetheringOverlay
+
+PRODUCT_PACKAGES += \
+    UpdaterResTarget
+
 # Linker
 PRODUCT_VENDOR_LINKER_CONFIG_FRAGMENTS += \
     $(LOCAL_PATH)/configs/linker.config.json
 
 # Matlog
-TARGET_DISABLE_MATLOG:= true
+TARGET_DISABLE_MATLOG := true
 TARGET_INCLUDE_MATLOG := false
 
 # Media
 $(call soong_config_set_bool,android_hardware_mediatek_codec2,link_v33_libstagefright_foundation,true)
+
 PRODUCT_PACKAGES += \
     android.hardware.media.c2-mtk-service \
+    libavservices_minijail_vendor:64 \
+    libcodec2_soft_common.vendor:64 \
     libcodec2_vndk.vendor:64 \
     libeffects:64 \
     libeffectsconfig.vendor:64 \
-    libavservices_minijail_vendor:64 \
-    libstagefright_softomx_plugin.vendor:64 \
-    libsfplugin_ccodec_utils.vendor:64 \
-    libcodec2_soft_common.vendor:64 \
     libflatbuffers-cpp.vendor:64 \
+    libminijail.vendor:64 \
     libminijail:64 \
-    libminijail.vendor:64
+    libsfplugin_ccodec_utils.vendor:64 \
+    libstagefright_softomx_plugin.vendor:64
 
 PRODUCT_PACKAGES += \
     android.hardware.cas@1.2-service-lazy
 
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/media,$(TARGET_COPY_OUT_VENDOR)/etc)
+
+# MTK Engineering Mode
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/permissions/privapp-permissions-mediatek.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-mediatek.xml
 
 # Overlays
 $(call inherit-product, hardware/mediatek/overlay/mssi.mk)
@@ -309,16 +313,6 @@ PRODUCT_PACKAGES += \
     SystemUIResTarget \
     TetheringConfigTarget \
     WifiResTarget
-
-# Lineage-Specific Overlays
-PRODUCT_PACKAGES += \
-    ApertureResTarget
-
-PRODUCT_PACKAGES += \
-    NcmTetheringOverlay
-
-PRODUCT_PACKAGES += \
-    UpdaterResTarget
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -334,6 +328,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.faketouch.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.faketouch.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.opengles.aep.xml \
+    frameworks/native/data/etc/android.hardware.se.omapi.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.uicc.xml \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.compass.xml \
     frameworks/native/data/etc/android.hardware.sensor.dynamic.head_tracker.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.dynamic.head_tracker.xml \
@@ -342,7 +337,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
-    frameworks/native/data/etc/android.hardware.se.omapi.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.uicc.xml \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/native/data/etc/android.hardware.telephony.ims.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.ims.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
@@ -371,21 +365,17 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/permissions/privapp-permissions-gms.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-gms.xml
 endif
 
-# MTK Engineering Mode
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/permissions/privapp-permissions-mediatek.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-mediatek.xml
-
 # Power
 PRODUCT_PACKAGES += \
     android.hardware.power-service.pixel-libperfmgr
 
 PRODUCT_PACKAGES += \
-    vendor.mediatek.hardware.mtkpower@1.2-service.stub:64 \
-    vendor.mediatek.hardware.mtkpower@1.0.vendor:64 \
-    vendor.mediatek.hardware.mtkpower@1.1.vendor:64
+    android.hardware.power@1.3.vendor:64
 
 PRODUCT_PACKAGES += \
-    android.hardware.power@1.3.vendor:64
+    vendor.mediatek.hardware.mtkpower@1.0.vendor:64 \
+    vendor.mediatek.hardware.mtkpower@1.1.vendor:64 \
+    vendor.mediatek.hardware.mtkpower@1.2-service.stub:64
 
 # Power | Dummy mtkperf lib
 PRODUCT_PACKAGES += \
@@ -410,46 +400,46 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.radio.config@1.3.vendor:64 \
     android.hardware.radio@1.6.vendor:64 \
-    libprotobuf-cpp-full.vendor:64 \
-    libprotobuf-cpp-lite.vendor:64 \
     libprotobuf-cpp-full-3.9.1-vendorcompat:64 \
-    libprotobuf-cpp-lite-3.9.1-vendorcompat:64
+    libprotobuf-cpp-full.vendor:64 \
+    libprotobuf-cpp-lite-3.9.1-vendorcompat:64 \
+    libprotobuf-cpp-lite.vendor:64
 
 # Required libs as of 14 QPR3
 PRODUCT_PACKAGES += \
     libcamera_metadata_shim \
-    libexpat.vendor \
-    libunwindstack.vendor \
     libchrome.vendor:64 \
     libcurl.vendor \
-    libexif.vendor \
     libdng_sdk.vendor \
+    libdumpstateutil.vendor \
+    libexif.vendor \
+    libexpat.vendor \
+    libgatekeeper.vendor \
+    libion.vendor \
+    libjsoncpp.vendor \
     liblz4.vendor \
+    libmemunreachable.vendor \
+    libnetutils.vendor \
+    libpcap.vendor \
     libpiex \
     libpng.vendor \
-    libion.vendor \
-    libui.vendor \
-    libmemunreachable.vendor \
-    libgatekeeper.vendor \
-    libjsoncpp.vendor \
-    libnetutils.vendor \
-    libdumpstateutil.vendor \
     libpower.vendor \
     libruy.vendor \
-    libpcap.vendor \
     libsqlite.vendor \
     libtextclassifier_hash.vendor \
+    libui.vendor \
+    libunwindstack.vendor \
     libutilscallstack.vendor \
     libziparchive.vendor
 
 # Required libs as of 15 QPR2
 PRODUCT_PACKAGES += \
-   libbase_shim:64 \
-   libprocessgroup_shim:64 \
-   libbinder-v32:64 \
-   libhidlbase-v32:64 \
-   libstagefright_foundation-v33:64 \
-   libutils-v32:64
+    libbase_shim:64 \
+    libbinder-v32:64 \
+    libhidlbase-v32:64 \
+    libprocessgroup_shim:64 \
+    libstagefright_foundation-v33:64 \
+    libutils-v32:64
 
 # RIL
 ENABLE_VENDOR_RIL_SERVICE := true
@@ -460,14 +450,14 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    libsensorndkbridge:64 \
-    android.hardware.sensors@1.0.vendor:64 \
-    android.hardware.sensors@2.1.vendor:64 \
-    android.frameworks.sensorservice@1.0:64 \
     android.frameworks.sensorservice@1.0.vendor:64 \
+    android.frameworks.sensorservice@1.0:64 \
     android.hardware.sensors-service.multihal \
+    android.hardware.sensors@1.0.vendor:64 \
+    android.hardware.sensors@2.0-ScopedWakelock.vendor:64 \
     android.hardware.sensors@2.0-subhal-impl-1.0 \
-    android.hardware.sensors@2.0-ScopedWakelock.vendor:64
+    android.hardware.sensors@2.1.vendor:64 \
+    libsensorndkbridge:64
 
 PRODUCT_PACKAGES += \
     sensors.dynamic_sensor_hal:64
@@ -475,14 +465,17 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
+# Shipping API level
+PRODUCT_SHIPPING_API_LEVEL := 31
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/mediatek \
-    hardware/mediatek/libmtkperf_client \
-    hardware/mediatek/libaedv \
     hardware/google/interfaces \
-    hardware/google/pixel
+    hardware/google/pixel \
+    hardware/mediatek \
+    hardware/mediatek/libaedv \
+    hardware/mediatek/libmtkperf_client
 
 # Speed profile services and wifi-service to reduce RAM and storage.
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
@@ -509,18 +502,18 @@ PRODUCT_FS_COMPRESSION := 1
 
 # vndservice
 PRODUCT_PACKAGES += \
-   vndservicemanager \
-   vndservice
+    vndservice \
+    vndservicemanager
 
 # Wi-Fi
 PRODUCT_PACKAGES += \
-    libwifi-hal-wrapper:64 \
     android.hardware.wifi-service \
-    wpa_supplicant \
-    lib_driver_cmd_mt66xx \
     hostapd \
+    lib_driver_cmd_mt66xx \
+    libkeystore-engine-wifi-hidl:64 \
     libkeystore-wifi-hidl:64 \
-    libkeystore-engine-wifi-hidl:64
+    libwifi-hal-wrapper:64 \
+    wpa_supplicant
 
 PRODUCT_PACKAGES += \
     android.hardware.tetheroffload.config@1.0.vendor:64 \
