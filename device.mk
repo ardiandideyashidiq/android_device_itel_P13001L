@@ -223,22 +223,27 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 PRODUCT_PACKAGES += \
     fstab.emmc \
     fstab.emmc.vendor_ramdisk \
+    init.recovery.usb.rc \
+    ueventd.mtk.rc \
     fstab.mt6789 \
     fstab.mt6789.vendor_ramdisk \
+    init_connectivity.rc \
     init.connectivity.common.rc \
     init.connectivity.rc \
-    init.insmod.mt6789.cfg \
     init.insmod.sh \
+    init.insmod.mt6789.cfg \
     init.modem.rc \
     init.mt6789.power.rc \
     init.mt6789.rc \
     init.mt6789.usb.rc \
     init.mtkgki.rc \
     init.project.rc \
-    init.recovery.usb.rc \
     init.sensor_2_0.rc \
-    init_connectivity.rc \
-    ueventd.mtk.rc
+    fstab.mt8781 \
+    fstab.mt8781.vendor_ramdisk \
+    init.insmod.mt8781.cfg \
+    init.mt8781.power.rc \
+    init.mt8781.rc
 
 # JamesDSP
 $(call inherit-product-if-exists, vendor/JamesDSP/config.mk)
@@ -495,7 +500,9 @@ $(call soong_config_set_bool,android_hardware_mediatek_usb,audio_accessory_suppo
 
 PRODUCT_PACKAGES += \
     android.hardware.usb-service.mediatek \
-    android.hardware.usb.gadget-service.mediatek
+    android.hardware.usb.gadget-service.mediatek \
+    init.mt6789.usb.rc \
+    init.mt8781.usb.rc
 
 # userdata
 PRODUCT_FS_COMPRESSION := 1
