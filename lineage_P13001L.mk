@@ -20,8 +20,8 @@ PRODUCT_MODEL := itel P13001L
 PRODUCT_GMS_CLIENTID_BASE := android-transsion
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BuildDesc="sys_mssi_t_64_cn_armv82-user 14 UP1A.231005.007 1728750305 test-keys" \
-    BuildFingerprint=Itel/P13001L-GL/itel-P13001L:14/UP1A.231005.007/1728750305:user/test-keys \
+    BuildDesc="sys_mssi_t_64_cn_armv82-user 14 UP1A.231005.007 1728750305 release-keys" \
+    BuildFingerprint=Itel/P13001L-GL/itel-P13001L:14/UP1A.231005.007/1728750305:user/release-keys \
     DeviceName=itel-P13001L \
     DeviceProduct=itel-P13001L \
     SystemDevice=itel-P13001L \

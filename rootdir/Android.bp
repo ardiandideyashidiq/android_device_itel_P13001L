@@ -23,7 +23,21 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "fstab.mt8781",
+    src: "etc/fstab.mt6789",
+    vendor: true,
+    vendor_ramdisk_available: true,
+}
+
+prebuilt_etc {
     name: "init.mt6789.power.rc",
+    src: "etc/init/hw/init.mt6789.power.rc",
+    relative_install_path: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.mt8781.power.rc",
     src: "etc/init/hw/init.mt6789.power.rc",
     relative_install_path: "init/hw",
     vendor: true,
@@ -50,6 +64,12 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "init.insmod.mt8781.cfg",
+    src: "etc/init.insmod.mtk.cfg",
+    vendor: true,
+}
+
+prebuilt_etc {
     name: "init.modem.rc",
     src: "etc/init/hw/init.modem.rc",
     relative_install_path: "init/hw",
@@ -64,7 +84,21 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "init.mt8781.rc",
+    src: "etc/init/hw/init.mt6789.rc",
+    relative_install_path: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
     name: "init.mt6789.usb.rc",
+    src: "etc/init/hw/init.mt6789.usb.rc",
+    relative_install_path: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.mt8781.usb.rc",
     src: "etc/init/hw/init.mt6789.usb.rc",
     relative_install_path: "init/hw",
     vendor: true,
