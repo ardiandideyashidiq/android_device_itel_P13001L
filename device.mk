@@ -187,6 +187,8 @@ PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.example_recovery \
     fastbootd:64
 
+$(call soong_config_set_bool,fastbootd,bypass_lock_state,true)
+
 # Gatekeeper
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-impl:64 \
@@ -240,7 +242,6 @@ PRODUCT_PACKAGES += \
     init.modem.rc \
     init.mt6789.power.rc \
     init.mt6789.rc \
-    init.mt6789.usb.rc \
     init.mtkgki.rc \
     init.project.rc \
     init.sensor_2_0.rc \

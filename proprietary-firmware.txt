@@ -7,7 +7,7 @@
 dpm.img;AB
 gz.img;AB
 logo.bin:logo.img|9e46bd4ed02cf066c4f09620b87a4ae359e92768
-lk.img;AB|2fa5b5c0e2e8dfd06149960ac7092ffffb386cda
+lk.img;AB|0b153004a12b0946c36fd990d18b272c1d20c62b
 mcupm.img;AB
 md1img.img;AB
 pi_img.img;AB
