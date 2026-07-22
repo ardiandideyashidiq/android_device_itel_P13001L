@@ -503,7 +503,7 @@ $(call soong_config_set_bool,android_hardware_mediatek_usb,audio_accessory_suppo
 PRODUCT_PACKAGES += \
     android.hardware.usb-service.mediatek \
     android.hardware.usb.gadget-service.mediatek \
-    init.mt6789.usb.rc
+    init.mt8781.usb.rc
 
 # userdata
 PRODUCT_FS_COMPRESSION := 1

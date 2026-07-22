@@ -105,7 +105,7 @@ BOARD_USES_VENDOR_DLKMIMAGE := true
 BOARD_EROFS_COMPRESS_HINTS := $(CONFIGS_PATH)/erofs_compress_hints.txt
 
 # Platform
-TARGET_BOARD_PLATFORM := mt6789
+TARGET_BOARD_PLATFORM := mt8781
 
 # Allow duplicate sysprop assignments
 BUILD_BROKEN_DUP_SYSPROP := true
