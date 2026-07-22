@@ -1,6 +1,6 @@
 use std::ffi::CStr;
 use std::fs::{self, File};
-use std::io;
+use std::io::{self, Read};
 use std::os::fd::AsRawFd;
 use std::os::raw::{c_char, c_int, c_ulong};
 use std::path::PathBuf;
@@ -9,6 +9,21 @@ const INPUT_DIR: &str = "/dev/input";
 const DEVICE_NAME_BUFFER_LEN: usize = 256;
 const SWITCH_STATE_BUFFER_LEN: usize = 8;
 const SW_KEYPAD_SLIDE: usize = 0x0a;
+
+#[cfg(target_pointer_width = "64")]
+const INPUT_EVENT_SIZE: usize = 24;
+#[cfg(not(target_pointer_width = "64"))]
+const INPUT_EVENT_SIZE: usize = 16;
+
+#[cfg(target_pointer_width = "64")]
+const EVENT_TYPE_OFFSET: usize = 16;
+#[cfg(not(target_pointer_width = "64"))]
+const EVENT_TYPE_OFFSET: usize = 8;
+
+const EVENT_CODE_OFFSET: usize = EVENT_TYPE_OFFSET + 2;
+const EVENT_VALUE_OFFSET: usize = EVENT_TYPE_OFFSET + 4;
+
+const EV_SW: u16 = 0x0f;
 
 const IOC_NRBITS: u32 = 8;
 const IOC_TYPEBITS: u32 = 8;
@@ -55,6 +70,28 @@ impl InputMonitor {
     /// Read the current dock switch state.
     pub(crate) fn current_switch_state(&self) -> io::Result<bool> {
         current_switch_state(&self.file)
+    }
+
+    /// Block on the next switch event and return the new state.
+    pub(crate) fn wait_for_switch_event(&self) -> io::Result<bool> {
+        let mut f = &self.file;
+        loop {
+            let mut buf = [0u8; INPUT_EVENT_SIZE];
+            f.read_exact(&mut buf)?;
+
+            let event_type = u16::from_ne_bytes([buf[EVENT_TYPE_OFFSET], buf[EVENT_TYPE_OFFSET + 1]]);
+            let event_code = u16::from_ne_bytes([buf[EVENT_CODE_OFFSET], buf[EVENT_CODE_OFFSET + 1]]);
+            let event_value = i32::from_ne_bytes([
+                buf[EVENT_VALUE_OFFSET],
+                buf[EVENT_VALUE_OFFSET + 1],
+                buf[EVENT_VALUE_OFFSET + 2],
+                buf[EVENT_VALUE_OFFSET + 3],
+            ]);
+
+            if event_type == EV_SW && event_code == SW_KEYPAD_SLIDE as u16 {
+                return Ok(event_value != 0);
+            }
+        }
     }
 
     /// Check whether the backing device node still exists.
