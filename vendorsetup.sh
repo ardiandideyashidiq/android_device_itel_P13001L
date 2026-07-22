@@ -9,6 +9,7 @@ repo="$root/frameworks/base"
 
 apply_patch() {
     local patch="$1"
+    local target_repo="${2:-$repo}"
     local name
     name="$(basename "$patch" .patch)"
 
@@ -17,13 +18,13 @@ apply_patch() {
         return
     fi
 
-    if git -C "$repo" apply --check --ignore-whitespace "$patch" 2>/dev/null; then
-        git -C "$repo" apply --ignore-whitespace "$patch"
+    if git -C "$target_repo" apply --check --ignore-whitespace "$patch" 2>/dev/null; then
+        git -C "$target_repo" apply --ignore-whitespace "$patch"
         echo "[patch] $name... applied"
         return
     fi
 
-    if git -C "$repo" apply --reverse --check --ignore-whitespace "$patch" 2>/dev/null; then
+    if git -C "$target_repo" apply --reverse --check --ignore-whitespace "$patch" 2>/dev/null; then
         echo "[patch] $name... already applied"
         return
     fi
@@ -31,5 +32,10 @@ apply_patch() {
     echo "[patch] $name... FAILED (context mismatch, patch may need rebasing)"
 }
 
+# ── frameworks/base ──
 apply_patch "$d/patches/landscape-bootanim.patch"
 apply_patch "$d/patches/tablet-fwb.patch"
+
+# ── system/core (fenrir) ──
+apply_patch "$d/patches/0001-libfs_avb-Allow-LKs-patched-with-fenrir-to-boot-on-A.patch" "$root/system/core"
+apply_patch "$d/patches/0002-fastbootd-Always-return-false-for-GetDeviceLockStatu.patch" "$root/system/core"
