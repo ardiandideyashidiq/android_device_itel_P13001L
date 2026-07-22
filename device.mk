@@ -249,7 +249,8 @@ PRODUCT_PACKAGES += \
     fstab.mt8781.vendor_ramdisk \
     init.insmod.mt8781.cfg \
     init.mt8781.power.rc \
-    init.mt8781.rc
+    init.mt8781.rc \
+    init.mt8781.usb.rc
 
 # Enable DM file pre-opting to reduce first boot time
 PRODUCT_DEX_PREOPT_GENERATE_DM_FILES := true
@@ -502,8 +503,7 @@ $(call soong_config_set_bool,android_hardware_mediatek_usb,audio_accessory_suppo
 
 PRODUCT_PACKAGES += \
     android.hardware.usb-service.mediatek \
-    android.hardware.usb.gadget-service.mediatek \
-    init.mt6789.usb.rc
+    android.hardware.usb.gadget-service.mediatek
 
 # userdata
 PRODUCT_FS_COMPRESSION := 1
