@@ -9,8 +9,6 @@ pub(crate) struct Config {
     pub(crate) log_tag: String,
     /// Input device name to watch for the dock switch.
     pub(crate) device_name: String,
-    /// Poll interval for dock state checks.
-    pub(crate) state_poll_interval: Duration,
     /// Interval between device discovery retries.
     pub(crate) node_wait_interval: Duration,
 }
@@ -26,7 +24,6 @@ impl Config {
             persist_property: env_or(&lookup, "PROP", "persist.sys.uart.dock"),
             log_tag: env_or(&lookup, "LOGTAG", "uart_keyboard_watchdog"),
             device_name: env_or(&lookup, "MID_INPUT_NAME", "mid_input"),
-            state_poll_interval: Duration::from_millis(env_u64(&lookup, "STATE_POLL_MS", 250)),
             node_wait_interval: Duration::from_secs(env_u64(&lookup, "NODE_WAIT_SECS", 1)),
         }
     }
