@@ -14,42 +14,56 @@ pub(crate) fn run(config: &Config, logger: &Logger) -> io::Result<()> {
     let mut monitor = wait_for_input_monitor(config, logger);
     let mut controller = DockController::new();
 
+    if let Ok(state) = monitor.current_switch_state() {
+        handle_state(config, logger, &mut controller, state);
+    }
+
     loop {
         if !monitor.is_still_present() {
             logger.warn("mid_input device disappeared; rediscovering");
             monitor = wait_for_input_monitor(config, logger);
+            if let Ok(state) = monitor.current_switch_state() {
+                handle_state(config, logger, &mut controller, state);
+            }
+            continue;
         }
 
-        let observed = match monitor.current_switch_state() {
-            Ok(true) => ObservedState::Attached,
-            Ok(false) => ObservedState::Detached,
+        let attached = match monitor.wait_for_switch_event() {
+            Ok(state) => state,
             Err(error) => {
-                logger.warn(format_args!("failed to read dock switch state: {error}"));
+                logger.warn(format_args!("input event read failed: {error}; rediscovering"));
                 monitor = wait_for_input_monitor(config, logger);
-                thread::sleep(config.state_poll_interval);
                 continue;
             }
         };
 
-        if let Some(transition) = controller.observe(observed) {
-            let attached = matches!(transition, Transition::ApplyAttached);
-            let message = if attached {
-                "dock attached; setting dock property"
-            } else {
-                "dock detached; clearing dock property"
-            };
-            logger.info(message);
+        handle_state(config, logger, &mut controller, attached);
+    }
+}
 
-            match android::apply_dock_state(config, attached) {
-                Ok(()) => controller.mark_applied(transition),
-                Err(error) => logger.warn(format_args!(
-                    "failed to apply dock {} transition: {error}",
-                    if attached { "attach" } else { "detach" }
-                )),
-            }
+fn handle_state(config: &Config, logger: &Logger, controller: &mut DockController, attached: bool) {
+    let observed = if attached {
+        ObservedState::Attached
+    } else {
+        ObservedState::Detached
+    };
+
+    if let Some(transition) = controller.observe(observed) {
+        let apply = matches!(transition, Transition::ApplyAttached);
+        let message = if apply {
+            "dock attached; setting dock property"
+        } else {
+            "dock detached; clearing dock property"
+        };
+        logger.info(message);
+
+        match android::apply_dock_state(config, apply) {
+            Ok(()) => controller.mark_applied(transition),
+            Err(error) => logger.warn(format_args!(
+                "failed to apply dock {} transition: {error}",
+                if apply { "attach" } else { "detach" }
+            )),
         }
-
-        thread::sleep(config.state_poll_interval);
     }
 }
 
