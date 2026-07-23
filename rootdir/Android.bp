@@ -144,10 +144,3 @@ sh_binary {
     src: "bin/init.insmod.sh",
     vendor: true,
 }
-
-install_symlink {
-    name: "init.mt8781.usb.rc",
-    installed_location: "etc/init/hw/init.mt8781.usb.rc",
-    symlink_target: "init.mt6789.usb.rc",
-    vendor: true,
-}
