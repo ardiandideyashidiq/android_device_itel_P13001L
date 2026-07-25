@@ -44,6 +44,7 @@
 #define PROP_DOCK "persist.vendor.uart.dock"
 #define RETRY_DELAY_S 3
 #define MAX_RETRIES 10
+#define STABLE_MS 800
 
 static int input_fd = -1;
 
@@ -157,22 +158,36 @@ int main(void) {
             continue;
         }
 
-        int docked = get_initial_switch_state(input_fd);
-        LOGI("initial dock state: %s", docked ? "attached" : "detached");
-        __system_property_set(PROP_DOCK, docked ? "1" : "0");
+        int cur = get_initial_switch_state(input_fd);
+        int applied = -1;
+        LOGI("initial dock state: %s", cur ? "attached" : "detached");
+        __system_property_set(PROP_DOCK, cur ? "1" : "0");
+        applied = cur;
 
         struct pollfd pfd = { .fd = input_fd, .events = POLLIN };
         int alive = 1;
 
-        /* Inner loop: block on poll() for SW_KEYPAD_SLIDE events. On POLLHUP
-           or ENODEV the device was removed (undock) — set property to 0 and
-           fall back to the outer loop to wait for re-dock. */
+        /* Inner loop: poll() with STABLE_MS timeout. On each event the
+           pending state is recorded but not applied. When no new events arrive
+           within the timeout the switch is stable — only then set the property.
+           This debounces noisy GPIO transitions. On POLLHUP/ENODEV the device
+           was removed — set detached immediately and exit to the outer loop. */
         while (alive) {
-            int ret = poll(&pfd, 1, -1);
+            int ret = poll(&pfd, 1, STABLE_MS);
             if (ret < 0) {
                 if (errno == EINTR) continue;
                 LOGE("poll failed: %s", strerror(errno));
                 break;
+            }
+
+            if (ret == 0) {
+                /* Timeout — no new events, switch is stable. */
+                if (cur != applied) {
+                    LOGI("dock %s (stable)", cur ? "attached" : "detached");
+                    __system_property_set(PROP_DOCK, cur ? "1" : "0");
+                    applied = cur;
+                }
+                continue;
             }
 
             if (pfd.revents & (POLLHUP | POLLERR)) {
@@ -191,8 +206,8 @@ int main(void) {
             if ((size_t)n != sizeof(ev)) continue;
 
             if (ev.type == EV_SW && ev.code == SW_KEYPAD_SLIDE) {
-                LOGI("dock %s", ev.value ? "attached" : "detached");
-                __system_property_set(PROP_DOCK, ev.value ? "1" : "0");
+                cur = ev.value ? 1 : 0;
+                LOGI("dock %s (pending)", cur ? "attached" : "detached");
             }
         }
 
