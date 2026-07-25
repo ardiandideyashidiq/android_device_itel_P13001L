@@ -277,4 +277,5 @@ PRODUCT_VENDOR_PROPERTIES += \
     persist.log.tag.RILJ=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.PackageConfigPersister=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.FrameTracker=$(VENDOR_LOG_LEVEL) \
-    persist.log.tag.wificond=$(VENDOR_LOG_LEVEL)
+    persist.log.tag.wificond=$(VENDOR_LOG_LEVEL) \
+    persist.log.tag.MtkUiccSEHal=$(VENDOR_LOG_LEVEL)
