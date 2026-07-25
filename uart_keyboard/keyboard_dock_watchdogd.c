@@ -165,14 +165,13 @@ int main(void) {
         applied = cur;
 
         struct pollfd pfd = { .fd = input_fd, .events = POLLIN };
-        int alive = 1;
 
         /* Inner loop: poll() with STABLE_MS timeout. On each event the
            pending state is recorded but not applied. When no new events arrive
            within the timeout the switch is stable — only then set the property.
            This debounces noisy GPIO transitions. On POLLHUP/ENODEV the device
            was removed — set detached immediately and exit to the outer loop. */
-        while (alive) {
+        while (1) {
             int ret = poll(&pfd, 1, STABLE_MS);
             if (ret < 0) {
                 if (errno == EINTR) continue;
