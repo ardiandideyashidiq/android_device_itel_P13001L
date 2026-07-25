@@ -1,3 +1,22 @@
+/*
+ * keyboard_dock_watchdogd — UART dock keyboard attach/detach monitor.
+ *
+ * The kernel module mid_uart_dock.ko creates a mid_input evdev switch device
+ * (SW_KEYPAD_SLIDE) when the tablet detects a hardware keyboard dock via GPIO.
+ * This daemon watches for that device, reads the switch state, and sets the
+ * Android property persist.vendor.uart.dock to 1 (attached) or 0 (detached).
+ *
+ * The init property trigger in uart_keyboard.rc then starts the proprietary
+ * mid_uart_dock daemon (UART/serio bridge) when attached, or stops it when
+ * detached. This replaces the Rust uart-keyboard-watchdog and the AOSP
+ * framework-based dock detection.
+ *
+ * Both attach and detach are handled: poll() blocks on the evdev fd. When the
+ * device is physically removed (undocked), the kernel unregisters it, poll()
+ * returns POLLHUP/POLLERR, and the daemon sets the property to 0 before
+ * entering the outer rediscovery loop.
+ */
+
 #include <android/log.h>
 #include <sys/system_properties.h>
 
@@ -28,6 +47,7 @@
 
 static int input_fd = -1;
 
+/* Clean exit on SIGTERM from init. Closes the evdev fd then dies. */
 static void sigterm_handler(int sig) {
     (void)sig;
     LOGI("received SIGTERM, exiting");
@@ -35,6 +55,8 @@ static void sigterm_handler(int sig) {
     _exit(0);
 }
 
+/* Open an evdev node and check it is the mid_input switch device.
+   Returns the fd on success, -1 if the device does not match. */
 static int check_input_device(const char *path) {
     int fd = open(path, O_RDONLY);
     if (fd < 0) return -1;
@@ -72,6 +94,8 @@ static int check_input_device(const char *path) {
     return fd;
 }
 
+/* Scan /dev/input/event* for the mid_input device.
+   Returns the first matching fd, or -1 if not found. */
 static int find_input_device(void) {
     DIR *dir = opendir(DEV_INPUT);
     if (!dir) {
@@ -98,6 +122,7 @@ static int find_input_device(void) {
     return -1;
 }
 
+/* Retry loop: poll for mid_input until it appears (up to MAX_RETRIES). */
 static int wait_for_input_device(void) {
     for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
         int fd = find_input_device();
@@ -109,6 +134,8 @@ static int wait_for_input_device(void) {
     return -1;
 }
 
+/* Read the current SW_KEYPAD_SLIDE state via EVIOCGSW ioctl.
+   Returns 1 (attached) or 0 (detached). */
 static int get_initial_switch_state(int fd) {
     uint8_t sw_bits[(SW_MAX / 8) + 1];
     if (ioctl(fd, EVIOCGSW(sizeof(sw_bits)), sw_bits) < 0) {
@@ -122,6 +149,7 @@ int main(void) {
     signal(SIGTERM, sigterm_handler);
 
     while (1) {
+        /* Outer loop: wait for mid_input to appear (boot or re-dock). */
         input_fd = wait_for_input_device();
         if (input_fd < 0) {
             LOGE("no device after %d attempts, sleeping %ds", MAX_RETRIES, RETRY_DELAY_S);
@@ -136,6 +164,9 @@ int main(void) {
         struct pollfd pfd = { .fd = input_fd, .events = POLLIN };
         int alive = 1;
 
+        /* Inner loop: block on poll() for SW_KEYPAD_SLIDE events. On POLLHUP
+           or ENODEV the device was removed (undock) — set property to 0 and
+           fall back to the outer loop to wait for re-dock. */
         while (alive) {
             int ret = poll(&pfd, 1, -1);
             if (ret < 0) {
