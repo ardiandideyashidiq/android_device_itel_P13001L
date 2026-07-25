@@ -23,10 +23,8 @@
 # Data
 /data/storage_dbg(/.*)?                                                                 u:object_r:storage_dbg_data_file:s0
 
-# Dock keyboard watchdog
-/(vendor|system/vendor)/bin/uart-keyboard-watchdog                                    u:object_r:uart_keyboard_watchdog_exec:s0
-
 # Dock keyboard
+/vendor/bin/keyboard_dock_watchdogd                                                     u:object_r:uart_keyboard_exec:s0
 /vendor/bin/mid_uart_dock                                                              u:object_r:mid_uart_dock_exec:s0
 /dev/mid_uart(/.*)?                                                                     u:object_r:mid_uart_device:s0
 
