@@ -80,7 +80,7 @@ TARGET_INCLUDES_LOS_PREBUILTS := true
 
 # Infinity
 PRODUCT_PRODUCT_PROPERTIES += \
-    ro.product.marketname=itel VistaTab 30 Pro \
-    ro.infinity.soc=Mediatek Helio G99 \
-    ro.infinity.camera=13MP + 8MP
+    ro.product.marketname="itel VistaTab 30 Pro" \
+    ro.infinity.soc="Mediatek Helio G99" \
+    ro.infinity.camera="13MP + 8MP"
 
