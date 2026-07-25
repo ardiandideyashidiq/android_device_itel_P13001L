@@ -453,23 +453,4 @@ on property:sys.boot_completed=1
 on property:sys.boot_completed=1
     write /sys/devices/platform/odm/odm:tran_battery/OTG_CTL 1
 
-    #add uart docking
-    chmod 0666 /dev/mid_uart
-    chown system system /dev/mid_uart
-    chmod 0666 /dev/ttyS2
-    chown root root /dev/ttyS2
-    chmod 0666 /vendor/bin/mid_uart_dock
-    chown system system /vendor/bin/mid_uart_dock
-    write /dev/mid_uart "1"
 
-service mid_uart_dock /vendor/bin/mid_uart_dock
-    user root
-    group root
-    oneshot
-    disabled
-
-on property:persist.sys.uart.dock=1
-   start mid_uart_dock
-
-on property:persist.sys.uart.dock=0
-   stop mid_uart_dock

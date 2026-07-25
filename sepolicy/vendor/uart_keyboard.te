@@ -1,0 +1,10 @@
+type uart_keyboard, domain;
+type uart_keyboard_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(uart_keyboard)
+
+allow uart_keyboard self:capability dac_override;
+allow uart_keyboard input_device:chr_file { read open ioctl };
+allow uart_keyboard input_device:dir { search read open };
+set_prop(uart_keyboard, vendor_mtk_uart_dock_prop)
+

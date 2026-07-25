@@ -137,9 +137,9 @@ PRODUCT_VENDOR_PROPERTIES += \
     dalvik.vm.heapmaxfree=48m
 
     
-# Dock keyboard watchdog
+# Dock keyboard
 PRODUCT_PACKAGES += \
-    uart-keyboard-watchdog
+    keyboard_dock_watchdogd
 
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/idc/,$(TARGET_COPY_OUT_VENDOR)/usr/idc)

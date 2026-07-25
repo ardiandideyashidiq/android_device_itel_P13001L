@@ -1,0 +1,25 @@
+on boot
+    chmod 0666 /dev/mid_uart
+    chown system system /dev/mid_uart
+    chmod 0666 /dev/ttyS2
+    chown root root /dev/ttyS2
+
+service keyboard_dock_watchdogd /vendor/bin/keyboard_dock_watchdogd
+    class main
+    user root
+    group root
+    seclabel u:r:uart_keyboard:s0
+
+service mid_uart_dock /vendor/bin/mid_uart_dock
+    class main
+    user root
+    group root
+    oneshot
+    disabled
+    seclabel u:r:mid_uart_dock:s0
+
+on property:persist.vendor.uart.dock=1
+    start mid_uart_dock
+
+on property:persist.vendor.uart.dock=0
+    stop mid_uart_dock

@@ -179,6 +179,7 @@ vendor/lib64/libbluetooth_mtk.so
 vendor/lib64/libbluetooth_mtk_pure.so
 vendor/lib64/libbt-vendor.so
 
+
 # Dock keyboard
 system/bin/mid_uart_dock:vendor/bin/mid_uart_dock
 system/bin/mid_uart_dock.sh:vendor/bin/mid_uart_dock.sh

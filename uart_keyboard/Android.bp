@@ -1,0 +1,8 @@
+cc_binary {
+    name: "keyboard_dock_watchdogd",
+    vendor: true,
+    srcs: ["keyboard_dock_watchdogd.c"],
+    shared_libs: ["liblog"],
+    init_rc: ["uart_keyboard.rc"],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+}
