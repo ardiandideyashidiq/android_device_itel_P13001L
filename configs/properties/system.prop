@@ -118,6 +118,7 @@ ro.config.thermal_dcs=40
 ro.config.thermal_limit=75
 
 # USB
+persist.sys.usic.support=true
 ro.sys.usb.bicr=no
 ro.sys.usb.charging.only=yes
 ro.sys.usb.mtp.whql.enable=0

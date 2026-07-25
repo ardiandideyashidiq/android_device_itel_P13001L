@@ -36,6 +36,7 @@ on init
     write /dev/cpuset/background/cpus 0-3
     write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuset/top-app/cpus 0-7
+    write /dev/cpuset/restricted/cpus 0-3
 
     # sched
     write /proc/sys/kernel/sched_migration_cost_ns 250000

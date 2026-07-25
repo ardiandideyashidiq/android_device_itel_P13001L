@@ -286,6 +286,12 @@
       "Type": "Property"
     },
     {
+      "Name": "RestrictedCpuset",
+      "Path": "/dev/cpuset/restricted/cpus",
+      "Values": ["0-3", "0-7"],
+      "ResetOnInit": false
+    },
+    {
       "Name": "PowerHALAudioState",
       "Path": "vendor.powerhal.audio",
       "Values": ["AUDIO_STREAMING_LOW_LATENCY", ""],
@@ -299,6 +305,18 @@
     }
   ],
   "Actions": [
+    {
+      "PowerHint": "DEVICE_IDLE",
+      "Node": "RestrictedCpuset",
+      "Duration": 0,
+      "Value": "0-3"
+    },
+    {
+      "PowerHint": "DISPLAY_INACTIVE",
+      "Node": "RestrictedCpuset",
+      "Duration": 0,
+      "Value": "0-3"
+    },
     {
       "PowerHint": "AUDIO_STREAMING_LOW_LATENCY",
       "Node": "PowerHALAudioState",
