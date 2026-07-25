@@ -41,8 +41,8 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # Axion
 PRODUCT_PRODUCT_PROPERTIES += \
-    persist.sys.perf.scroll_opt = true \
-    persist.sys.perf.scroll_opt.heavy_app = 2
+    persist.sys.perf.scroll_opt=true \
+    persist.sys.perf.scroll_opt.heavy_app=2
 
 WITH_GAPPS := true
 WITH_GMS := true
@@ -77,3 +77,10 @@ AXION_MAINTAINER := R
 AXION_PROCESSOR := Mediatek Helio G99
 
 TARGET_INCLUDES_LOS_PREBUILTS := true
+
+# Infinity
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.product.marketname=itel VistaTab 30 Pro \
+    ro.infinity.soc=Mediatek Helio G99 \
+    ro.infinity.camera=13MP + 8MP
+
